@@ -35,15 +35,6 @@ So ApplyIQ will do two things other trackers don't:
 - [ ] (Maybe later) show insights based on your own application data
 
 
-## Want to run it locally?
- 
-```bash
-git clone https://github.com/<your-username>/applyiq.git
-cd applyiq
-npm install
-npm run dev
-```
-
 ## About me
  
 Made by Ashlesha Meshram  — learning Frontend development and building this as a portfolio project.
