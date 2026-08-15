@@ -1,16 +1,49 @@
-# React + Vite
+# ApplyIQ — Job Application Tracker with AI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple app to keep track of the jobs you apply to, but with an AI twist that actually helps you get more interviews.
 
-Currently, two official plugins are available:
+## Why I'm building this
+ 
+Most job trackers just let you save a list of companies you applied to. That's fine, but it doesn't solve the real problem — most people don't know why they're not getting replies. Usually it's because their resume doesn't match what the job actually wants.
+ 
+So ApplyIQ will do two things other trackers don't:
+1. Check how well your resume matches a job description and tell you what's missing.
+2. Help you prepare for interviews based on the actual job, not generic questions.
+## What it'll do
+ 
+- **Resume match score** — paste a job description, and it tells you how well your resume matches it (in %), plus what keywords/skills you're missing.
+- **AI interview prep** — based on the job description, it generates the kind of questions you might get asked, plus smart questions to ask back.
+- **Track your applications** — see all your applications in one place, mark them as Applied, Interview, Offer, or Rejected.
+- **Board view** — a Trello-style board so you can see your applications by stage at a glance, and drag a card to a new column when its status changes.
+- Works well on both desktop and mobile.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Built with
+- React
+- Material UI
+- localStorage to save data
+- Deployed on Vercel
 
-## React Compiler
+## Roadmap
+ 
+- [ ] Dashboard page
+- [ ] Add/edit application form
+- [ ] Board view
+- [ ] AI resume match feature
+- [ ] AI interview prep feature
+- [ ] Make it responsive for mobile
+- [ ] Deploy it
+- [ ] (Maybe later) show insights based on your own application data
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## Expanding the ESLint configuration
+## Want to run it locally?
+ 
+```bash
+git clone https://github.com/<your-username>/applyiq.git
+cd applyiq
+npm install
+npm run dev
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## About me
+ 
+Made by Ashlesha Meshram  — learning Frontend development and building this as a portfolio project.
