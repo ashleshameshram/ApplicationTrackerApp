@@ -9,8 +9,8 @@ import IconButton from '@mui/material/IconButton';
 import LocationPinIcon from '@mui/icons-material/LocationPin';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
-export default function ApplicationCard({ application }) {
-    const { role, company,location,daysAgo, status } = application;
+export default function ApplicationCard({ applications }) {
+    const { role, company, location, daysAgo, status } = applications;
 
     return(
         <Card variant="outlined" sx={{borderRadius: 2,borderColor: '#e6e7ee',boxShadow: 'none'}}>
