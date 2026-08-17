@@ -47,6 +47,13 @@ export default function HomePage() {
         );
     };
 
+    //delete application
+    let handleDeleteApplication = (id) => {
+        setApplications(
+            applications.filter((application) => application.id !== id )
+        );
+    };
+
 
     const columns = [
         {
@@ -101,6 +108,7 @@ export default function HomePage() {
                         title={column.title} 
                         status={column.status} 
                         onEdit={handleEditApplication}
+                        onDelete={handleDeleteApplication}
                         applications={applications} 
                     />
                 ))}

@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 
 import ApplicationCard from './ApplicationCard'
 
-export default function BoardColumn({onEdit, color, bgColor, title, icon, status, applications }) {
+export default function BoardColumn({onDelete,onEdit, color, bgColor, title, icon, status, applications }) {
     const Icon = icon;
     const Color = color;
     const BgColor = bgColor;
@@ -35,8 +35,9 @@ export default function BoardColumn({onEdit, color, bgColor, title, icon, status
                 {filterApplications.map((application) => (
                     <ApplicationCard  
                         key={application.id}
-                        applications={application}
+                        application={application}
                         onEdit={onEdit}
+                        onDelete={onDelete}
                     />
                 ))}
             </Box>

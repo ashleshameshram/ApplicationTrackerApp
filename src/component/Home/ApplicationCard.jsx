@@ -7,14 +7,21 @@ import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
 
 import LocationPinIcon from '@mui/icons-material/LocationPin';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useSelectFocusSource } from '@mui/material/Select';
 
-export default function ApplicationCard({ applications, onEdit }) {
-    const { role, company, location, applicationDate, status } = applications;
+export default function ApplicationCard({ application, onEdit, onDelete }) {
+    const { role, company, location, applicationDate, status } = application;
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
 
     return(
         <Card variant="outlined" sx={{borderRadius: 2,borderColor: '#e6e7ee',boxShadow: 'none'}}>
@@ -43,13 +50,38 @@ export default function ApplicationCard({ applications, onEdit }) {
                     <Menu anchorEl={anchorEl} 
                     open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
                         <MenuItem onClick={() => {
-                            onEdit(applications);
+                            onEdit(application);
                             setAnchorEl(null);
                         }}>
                             Edit
                         </MenuItem>
-                        <MenuItem>Delete</MenuItem>
+
+                        <MenuItem onClick={() =>{
+                            setOpenDeleteDialog(true);
+                            setAnchorEl(null);
+                        }}>
+                            Delete
+                        </MenuItem>
                     </Menu>
+
+                    <Dialog open={openDeleteDialog} onClose={() => setOpenDeleteDialog(false)}>
+                        <DialogTitle>Delete Application?</DialogTitle>
+
+                        <DialogContent>
+                            <DialogContentText>
+                                Are you sure you want to delete this application?
+                            </DialogContentText>
+                        </DialogContent>
+
+                        <DialogActions>
+                            <Button onClick={() => setOpenDeleteDialog(false)}>
+                                Cancel
+                            </Button>
+                            <Button color="error" onClick={() => onDelete(application.id)}>
+                                Delete
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
                 </Box>
 
                 <Box sx={{display: 'flex',justifyContent: 'space-between',alignItems: 'center',mt: 2}}>
