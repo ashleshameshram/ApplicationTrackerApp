@@ -5,12 +5,16 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
 import LocationPinIcon from '@mui/icons-material/LocationPin';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { useSelectFocusSource } from '@mui/material/Select';
 
-export default function ApplicationCard({ applications }) {
+export default function ApplicationCard({ applications, onEdit }) {
     const { role, company, location, applicationDate, status } = applications;
+    const [anchorEl, setAnchorEl] = React.useState(null);
 
     return(
         <Card variant="outlined" sx={{borderRadius: 2,borderColor: '#e6e7ee',boxShadow: 'none'}}>
@@ -31,9 +35,21 @@ export default function ApplicationCard({ applications }) {
                         </Typography>
                     </Box>
 
-                    <IconButton size="small" sx={{color: '#85899a'}}>
+                    <IconButton size="small" sx={{color: '#85899a'}}
+                    onClick={(e) => setAnchorEl(e.currentTarget)}>
                         <MoreVertIcon fontSize="small" />
                     </IconButton>
+
+                    <Menu anchorEl={anchorEl} 
+                    open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
+                        <MenuItem onClick={() => {
+                            onEdit(applications);
+                            setAnchorEl(null);
+                        }}>
+                            Edit
+                        </MenuItem>
+                        <MenuItem>Delete</MenuItem>
+                    </Menu>
                 </Box>
 
                 <Box sx={{display: 'flex',justifyContent: 'space-between',alignItems: 'center',mt: 2}}>

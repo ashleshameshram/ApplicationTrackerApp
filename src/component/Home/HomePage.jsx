@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid';
 import BoardColumn from './BoardColumn.jsx'
 import Box from '@mui/material/Box';
-import { dummyApplication } from '../../data/dummyApplication.js'
 import AddApplicationForm from './AddApplicationForm.jsx';
 import BoardColumnHeader from './BoardColumnHeader.jsx';
 
@@ -13,8 +12,10 @@ import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import CancelIcon from '@mui/icons-material/Cancel';
 
 export default function HomePage() {
-    const [applications, setApplications] = useState(dummyApplication);
+    const [applications, setApplications] = useState([]);
     const [openAddForm, setOpenAddForm] = useState(false);
+    const [editApplication, setEditApplication] = useState(null);
+    const [openEditApplication, setOpenEditApplication] = useState(false);
 
     //add card btn function
     let handleAddCard = () => {
@@ -30,6 +31,22 @@ export default function HomePage() {
             }
         ]);
     };
+
+    //edit application
+    let handleEditApplication = (applications) => {
+        setEditApplication(applications);
+        setOpenEditApplication(true);
+    }
+    //update form when editing the form
+    const handleUpdateApplication = (updateApplication) => {
+        setApplications(
+            applications.map((application) => 
+                application.id === updateApplication.id
+                ? updateApplication : application
+            )
+        );
+    };
+
 
     const columns = [
         {
@@ -83,6 +100,7 @@ export default function HomePage() {
                         bgColor={column.bgColor}
                         title={column.title} 
                         status={column.status} 
+                        onEdit={handleEditApplication}
                         applications={applications} 
                     />
                 ))}
@@ -92,6 +110,16 @@ export default function HomePage() {
                 open={openAddForm}
                 onClose={() => setOpenAddForm(false)}
                 onAddApplication={handleAddApplication}
+            />
+
+            <AddApplicationForm 
+                open={openEditApplication}
+                onClose={() => {
+                    setOpenEditApplication(false);
+                    setEditApplication(null);
+                }}
+                applications={editApplication}
+                onAddApplication={handleUpdateApplication}
             />
         </Box>
         </>

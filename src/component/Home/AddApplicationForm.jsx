@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -8,7 +8,7 @@ import MenuItem from '@mui/material/MenuItem';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 
-export default function AddApplicationForm({ open, onClose, onAddApplication }) {
+export default function AddApplicationForm({ open, onClose, onAddApplication, applications }) {
     const initialFormData = {
         role:'',
         company:'',
@@ -19,14 +19,22 @@ export default function AddApplicationForm({ open, onClose, onAddApplication }) 
     }
     const [formData, setFormData] = useState(initialFormData);
 
+    //on edit form should open
+    useEffect(() => {
+        if(applications) {
+            setFormData(applications)
+        }
+    },[applications]);
+
     return(
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
             <DialogTitle>
-                Add Job Application
+                {applications ? "Edit Job Application" : "Add Job Application" }
             </DialogTitle >
 
             <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 3,pt:2 }}>
-                <TextField label="Job Role" fullWidth size='small' value={formData.role} 
+                <TextField label="Job Role" fullWidth size='small' sx={{ mt: 1}}
+                value={formData.role} 
                 onChange={(e) => setFormData({
                         ...formData,   //to not lose the other fields data as well
                         role: e.target.value
@@ -101,7 +109,7 @@ export default function AddApplicationForm({ open, onClose, onAddApplication }) 
                     setFormData(initialFormData);
                     onClose();
                 }}>
-                    Add Application
+                    {applications ? "Edit Application" : "Add Application" }
                 </Button>
 
             </DialogActions>

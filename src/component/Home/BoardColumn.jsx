@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 
 import ApplicationCard from './ApplicationCard'
 
-export default function BoardColumn({color, bgColor, title, icon, status, applications }) {
+export default function BoardColumn({onEdit, color, bgColor, title, icon, status, applications }) {
     const Icon = icon;
     const Color = color;
     const BgColor = bgColor;
@@ -15,7 +15,7 @@ export default function BoardColumn({color, bgColor, title, icon, status, applic
 
     return(
         <Box sx={{ backgroundColor: BgColor ,borderRadius: 4,padding: 2, 
-        padding:1.5,flex:1,minWidth: 0}}>
+        padding:1.5,flex:1,minWidth: 0,minHeight: 100}}>
             <Box sx={{display:'flex', justifyContent:'space-between',alignItems:'center',mb:1.5}}>
 
                 <Box sx={{display:'flex',gap:1,alignItems:'center',color: Color}}>    
@@ -36,6 +36,7 @@ export default function BoardColumn({color, bgColor, title, icon, status, applic
                     <ApplicationCard  
                         key={application.id}
                         applications={application}
+                        onEdit={onEdit}
                     />
                 ))}
             </Box>
