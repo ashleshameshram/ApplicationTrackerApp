@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid';
 import BoardColumn from './BoardColumn.jsx'
 import Box from '@mui/material/Box';
@@ -12,7 +12,12 @@ import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import CancelIcon from '@mui/icons-material/Cancel';
 
 export default function HomePage() {
-    const [applications, setApplications] = useState([]);
+    //load saved applications
+    const [applications, setApplications] = useState(() => {
+        const savedApplications = localStorage.getItem('applications');
+        return savedApplications ? JSON.parse(savedApplications) : [];
+    });
+
     const [openAddForm, setOpenAddForm] = useState(false);
     const [editApplication, setEditApplication] = useState(null);
     const [openEditApplication, setOpenEditApplication] = useState(false);
@@ -54,6 +59,10 @@ export default function HomePage() {
         );
     };
 
+    //add localStorage
+    useEffect(() => {
+        localStorage.setItem('applications', JSON.stringify(applications));
+    },[applications]);
 
     const columns = [
         {
