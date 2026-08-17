@@ -3,6 +3,7 @@ import BoardColumn from './BoardColumn.jsx'
 import Box from '@mui/material/Box';
 import { dummyApplication } from '../../data/dummyApplication.js'
 import AddApplicationForm from './AddApplicationForm.jsx';
+import BoardColumnHeader from './BoardColumnHeader.jsx';
 
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import NearMeIcon from '@mui/icons-material/NearMe';
@@ -58,24 +59,29 @@ export default function HomePage() {
     ];
 
     return(
-        <Box sx={{display:'flex', gap:1, width: '100%', p:2,boxSizing: 'border-box'}}>
-            {columns.map((column) => (
-                <BoardColumn 
-                    key={column.status}
-                    icon={column.icon}
-                    color={column.color}
-                    bgColor={column.bgColor}
-                    title={column.title} 
-                    status={column.status} 
-                    applications={applications} 
-                    onAddCard={handleAddCard}
-                />
-            ))}
+        <>
+        <Box sx={{width:'100%', p:2, boxSizing: 'border-box'}}>
+            <BoardColumnHeader onAddApplication={handleAddCard}/>
+
+            <Box sx={{display:'flex', gap:1, width: '100%'}}>
+                {columns.map((column) => (
+                    <BoardColumn 
+                        key={column.status}
+                        icon={column.icon}
+                        color={column.color}
+                        bgColor={column.bgColor}
+                        title={column.title} 
+                        status={column.status} 
+                        applications={applications} 
+                    />
+                ))}
+            </Box>
 
             <AddApplicationForm 
                 open={openAddForm}
                 onClose={() => setOpenAddForm(false)}
             />
         </Box>
+        </>
     )
 }

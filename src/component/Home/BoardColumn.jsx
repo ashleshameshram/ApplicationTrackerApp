@@ -1,17 +1,12 @@
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
-import AddIcon from '@mui/icons-material/Add';
 
 import ApplicationCard from './ApplicationCard'
 
-export default function BoardColumn({ onAddCard,color,bgColor, title, icon,status, applications }) {
+export default function BoardColumn({color,bgColor, title, icon,status, applications }) {
     const Icon = icon;
     const Color = color;
     const BgColor = bgColor;
-
-    
 
     const filterApplications = applications.filter((application) => 
         application.status === status    
@@ -44,12 +39,6 @@ export default function BoardColumn({ onAddCard,color,bgColor, title, icon,statu
                     />
                 ))}
             </Box>
-            
-            <Stack spacing={2}>
-                <Button onClick={onAddCard}>
-                   <AddIcon/> Add Card
-                </Button>
-            </Stack>
         </Box>
     )
 }
