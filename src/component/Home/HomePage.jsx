@@ -10,6 +10,13 @@ import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import CancelIcon from '@mui/icons-material/Cancel';
 
 export default function HomePage() {
+    const [applications, setApplications] = useState(dummyApplication);
+
+    //add card btn function
+    let handleAddCard = () => {
+        console.log("Hello from Homepage!");
+    }
+
     const columns = [
         {
             title: 'Wishlist',
@@ -58,7 +65,8 @@ export default function HomePage() {
                     bgColor={column.bgColor}
                     title={column.title} 
                     status={column.status} 
-                    applications={dummyApplication} 
+                    applications={applications} 
+                    onAddCard={handleAddCard}
                 />
             ))}
         </Box>

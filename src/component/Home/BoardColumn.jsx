@@ -6,10 +6,12 @@ import AddIcon from '@mui/icons-material/Add';
 
 import ApplicationCard from './ApplicationCard'
 
-export default function BoardColumn({ color,bgColor, title, icon,status, applications }) {
+export default function BoardColumn({ onAddCard,color,bgColor, title, icon,status, applications }) {
     const Icon = icon;
     const Color = color;
     const BgColor = bgColor;
+
+    
 
     const filterApplications = applications.filter((application) => 
         application.status === status    
@@ -44,7 +46,7 @@ export default function BoardColumn({ color,bgColor, title, icon,status, applica
             </Box>
             
             <Stack spacing={2}>
-                <Button href="#text-buttons">
+                <Button onClick={onAddCard}>
                    <AddIcon/> Add Card
                 </Button>
             </Stack>
