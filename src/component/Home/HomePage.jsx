@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { v4 as uuidv4 } from 'uuid';
 import BoardColumn from './BoardColumn.jsx'
 import Box from '@mui/material/Box';
 import { dummyApplication } from '../../data/dummyApplication.js'
@@ -19,6 +20,16 @@ export default function HomePage() {
     let handleAddCard = () => {
         setOpenAddForm(true);
     }
+
+    let handleAddApplication = (newApplication) => {
+        setApplications([
+            ...applications,
+            {
+                id: uuidv4(),
+                ...newApplication
+            }
+        ]);
+    };
 
     const columns = [
         {
@@ -61,7 +72,7 @@ export default function HomePage() {
     return(
         <>
         <Box sx={{width:'100%', p:2, boxSizing: 'border-box'}}>
-            <BoardColumnHeader onAddApplication={handleAddCard}/>
+            <BoardColumnHeader onAddcard={handleAddCard}/>
 
             <Box sx={{display:'flex', gap:1, width: '100%'}}>
                 {columns.map((column) => (
@@ -80,6 +91,7 @@ export default function HomePage() {
             <AddApplicationForm 
                 open={openAddForm}
                 onClose={() => setOpenAddForm(false)}
+                onAddApplication={handleAddApplication}
             />
         </Box>
         </>

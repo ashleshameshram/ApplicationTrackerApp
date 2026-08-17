@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -6,7 +8,17 @@ import MenuItem from '@mui/material/MenuItem';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 
-export default function AddApplicationForm({ open, onClose }) {
+export default function AddApplicationForm({ open, onClose, onAddApplication }) {
+    const initialFormData = {
+        role:'',
+        company:'',
+        location:'',
+        applicationDate: '',
+        status:'wishlist',
+        notes: ''
+    }
+    const [formData, setFormData] = useState(initialFormData);
+
     return(
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
             <DialogTitle>
@@ -14,10 +26,31 @@ export default function AddApplicationForm({ open, onClose }) {
             </DialogTitle >
 
             <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 3,pt:2 }}>
-                <TextField label="Job Role" fullWidth size='small'/>
-                <TextField label="Company" fullWidth size='small' />
-                <TextField label="Location" fullWidth size='small' />
-                <TextField select label="Status" defaultValue="wishlist" fullWidth size='small'>
+                <TextField label="Job Role" fullWidth size='small' value={formData.role} 
+                onChange={(e) => setFormData({
+                        ...formData,   //to not lose the other fields data as well
+                        role: e.target.value
+                    })}
+                />
+
+                <TextField label="Company" fullWidth size='small' value={formData.company}
+                onChange={(e) => setFormData({
+                        ...formData,
+                        company: e.target.value
+                    })}
+                />
+
+                <TextField label="Location" fullWidth size='small' value={formData.location}
+                onChange={(e) => setFormData({
+                        ...formData,
+                        location: e.target.value
+                    })}
+                />
+                <TextField select label="Status" fullWidth size='small'
+                value={formData.status} onChange={(e) => setFormData({
+                    ...formData,
+                    status: e.target.value
+                })}>
                     <MenuItem value="wishlist">
                         Wishlist
                     </MenuItem>
@@ -40,20 +73,37 @@ export default function AddApplicationForm({ open, onClose }) {
                 </TextField>  
 
                 <TextField label='Application Date' type='date' fullWidth
-                size='small'slotProps={{inputLabel: {shrink: true}}}
+                size='small'slotProps={{inputLabel: {shrink: true}}} value={formData.applicationDate}
+                    onChange={(e) => setFormData({
+                        ...formData,
+                        applicationDate: e.target.value
+                    })}
                 />
 
                 <TextField label="Notes" multiline rows={3} fullWidth 
-                placeholder='Add any notes about this application...'/>     
+                placeholder='Add any notes about this application...'
+                value={formData.notes} onChange={(e) => setFormData({
+                        ...formData,
+                        notes:e.target.value 
+                    })}
+                />  
             </DialogContent>
 
             <DialogActions sx={{p:2}}>
-                <Button sx={{textTransform: 'none'}}>
+                <Button sx={{textTransform: 'none'}}
+                onClick={onClose}>
                     Cancel
                 </Button>
-                <Button variant="contained" sx={{textTransform: 'none'}}>
-                    Add Card
+
+                <Button variant="contained" sx={{textTransform: 'none'}}
+                onClick={() => {
+                    onAddApplication(formData);
+                    setFormData(initialFormData);
+                    onClose();
+                }}>
+                    Add Application
                 </Button>
+
             </DialogActions>
         </Dialog>
     )

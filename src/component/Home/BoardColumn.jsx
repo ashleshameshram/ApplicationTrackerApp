@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 
 import ApplicationCard from './ApplicationCard'
 
-export default function BoardColumn({color,bgColor, title, icon,status, applications }) {
+export default function BoardColumn({color, bgColor, title, icon, status, applications }) {
     const Icon = icon;
     const Color = color;
     const BgColor = bgColor;

@@ -10,7 +10,7 @@ import LocationPinIcon from '@mui/icons-material/LocationPin';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 export default function ApplicationCard({ applications }) {
-    const { role, company, location, daysAgo, status } = applications;
+    const { role, company, location, applicationDate, status } = applications;
 
     return(
         <Card variant="outlined" sx={{borderRadius: 2,borderColor: '#e6e7ee',boxShadow: 'none'}}>
@@ -45,7 +45,7 @@ export default function ApplicationCard({ applications }) {
                     </Box>
 
                     <Typography variant="caption" sx={{color: '#85899a'}}>
-                        {daysAgo} days ago
+                        {applicationDate}
                     </Typography>
                 </Box>
             </CardContent>
