@@ -16,13 +16,13 @@ export default function ApplicationCard({ applications }) {
         <Card variant="outlined" sx={{borderRadius: 2,borderColor: '#e6e7ee',boxShadow: 'none'}}>
             <CardContent sx={{p: 2}}>
 
-                <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'flex-start' }}>
-                    <Avatar variant = "rounded" sx={{width: 40,height: 40,fontSize: 20,bgcolor: '#f0f1f6',color: '#4b4e63'}}>
+                <Box sx={{ display: 'flex', gap: 1, alignItems: 'flex-start' }}>
+                    <Avatar variant = "rounded" sx={{width: 30,height: 30,fontSize: 20,bgcolor: '#f0f1f6',color: '#4b4e63'}}>
                         {company.charAt(0)}
                     </Avatar>
 
                     <Box sx={{flex: 1}}>
-                        <Typography variant="subtitle1" sx={{fontWeight: 600,color: '#202238'}}>
+                        <Typography sx={{fontSize: '14px',fontWeight: 600,color: '#202238'}}>
                             {role}
                         </Typography>
 

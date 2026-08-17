@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import HomePage from './component/Home/HomePage'
+import ParentHomePage from './component/Home/ParentHomePage'
 
 function App() {
   return (
     <>
-      <HomePage />
+      <ParentHomePage />
     </>
   )
 }
