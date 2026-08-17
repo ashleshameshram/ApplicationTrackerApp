@@ -2,6 +2,7 @@ import { useState } from 'react'
 import BoardColumn from './BoardColumn.jsx'
 import Box from '@mui/material/Box';
 import { dummyApplication } from '../../data/dummyApplication.js'
+import AddApplicationForm from './AddApplicationForm.jsx';
 
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import NearMeIcon from '@mui/icons-material/NearMe';
@@ -11,10 +12,11 @@ import CancelIcon from '@mui/icons-material/Cancel';
 
 export default function HomePage() {
     const [applications, setApplications] = useState(dummyApplication);
+    const [openAddForm, setOpenAddForm] = useState(false);
 
     //add card btn function
     let handleAddCard = () => {
-        console.log("Hello from Homepage!");
+        setOpenAddForm(true);
     }
 
     const columns = [
@@ -69,6 +71,11 @@ export default function HomePage() {
                     onAddCard={handleAddCard}
                 />
             ))}
+
+            <AddApplicationForm 
+                open={openAddForm}
+                onClose={() => setOpenAddForm(false)}
+            />
         </Box>
     )
 }
