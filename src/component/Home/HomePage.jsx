@@ -4,6 +4,7 @@ import BoardColumn from './BoardColumn.jsx'
 import Box from '@mui/material/Box';
 import AddApplicationForm from './AddApplicationForm.jsx';
 import BoardColumnHeader from './BoardColumnHeader.jsx';
+import { DndContext } from '@dnd-kit/core';
 
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import NearMeIcon from '@mui/icons-material/NearMe';
@@ -64,6 +65,26 @@ export default function HomePage() {
         localStorage.setItem('applications', JSON.stringify(applications));
     },[applications]);
 
+    //drag-end event
+    const handleDragEnd = (e) => {
+        const  draggedId = e.active.id;
+        const droppedStatus = e.over?.id;
+        if(!droppedStatus) return;
+
+        const draggedApplication = applications.find((application) => 
+            application.id === draggedId
+        );
+        if (draggedApplication.status === droppedStatus) return;
+
+        setApplications((prev) => 
+            prev.map((application) => 
+                application.id === draggedId 
+                ? {...application, status: droppedStatus}
+                : application
+            )
+        );
+    }
+
     const columns = [
         {
             title: 'Wishlist',
@@ -107,6 +128,7 @@ export default function HomePage() {
         <Box sx={{width:'100%', p:2, boxSizing: 'border-box'}}>
             <BoardColumnHeader onAddcard={handleAddCard}/>
 
+            <DndContext onDragEnd={handleDragEnd}>
             <Box sx={{display:'flex', gap:1, width: '100%'}}>
                 {columns.map((column) => (
                     <BoardColumn 
@@ -122,6 +144,7 @@ export default function HomePage() {
                     />
                 ))}
             </Box>
+            </DndContext>
 
             <AddApplicationForm 
                 open={openAddForm}

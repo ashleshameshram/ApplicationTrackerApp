@@ -13,20 +13,38 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
+import { useDraggable } from '@dnd-kit/core';
 
 import LocationPinIcon from '@mui/icons-material/LocationPin';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { useSelectFocusSource } from '@mui/material/Select';
 
 export default function ApplicationCard({ application, onEdit, onDelete }) {
     const { role, company, location, applicationDate, status } = application;
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
 
-    return(
-        <Card variant="outlined" sx={{borderRadius: 2,borderColor: '#e6e7ee',boxShadow: 'none'}}>
-            <CardContent sx={{p: 2}}>
+    const {attributes, listeners, setNodeRef, transform, isDragging} = useDraggable({
+        id: application.id
+    });
 
+    return(
+        <Card variant="outlined" 
+        sx={{ borderRadius: 2,
+            borderColor: '#e6e7ee',
+            boxShadow: 'none',
+            opacity: isDragging ? 0.5 : 1,
+            zIndex: isDragging ? 1000 : 'auto',
+            cursor: isDragging ? 'grabbing' : 'grab',
+            transition: isDragging ? 'none' :  'transform 200ms ease',
+            transform: transform 
+                ? `translate3d(${transform.x}px, ${transform.y}px,0)` 
+                : undefined
+        }}
+        ref={setNodeRef}       //this is the element should be draggable
+            {...listeners}     //Adds the mouse/pointer/touch events needed for dragging
+            {...attributes}    //Adds accessibility-related attributes needed by dnd-kit.
+        >
+            <CardContent sx={{p: 2}}>
                 <Box sx={{ display: 'flex', gap: 1, alignItems: 'flex-start' }}>
                     <Avatar variant = "rounded" sx={{width: 30,height: 30,fontSize: 20,bgcolor: '#f0f1f6',color: '#4b4e63'}}>
                         {company.charAt(0)}
