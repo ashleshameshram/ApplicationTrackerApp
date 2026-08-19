@@ -19,8 +19,8 @@ export default function BoardColumn({onDelete,onEdit, color, bgColor, title, ico
 
     return(
         <>
-        <Box sx={{backgroundColor: BgColor ,borderRadius: 4,padding: 2,flex:1,minWidth: 0,
-        height: 400,overflow:'hidden',boxSizing:'border-box',display:'flex',flexDirection:'column'}} 
+        <Box sx={{backgroundColor: BgColor ,borderRadius: 4,paddingTop:2,paddingLeft:1,flex:1,minWidth: 0,
+        height: 360,overflow:'hidden',boxSizing:'border-box',display:'flex',flexDirection:'column'}} 
         ref={setNodeRef}>
             <Box sx={{display:'flex', justifyContent:'space-between',alignItems:'center',mb:1.5,flexShrink:0}}>
                 <Box sx={{display:'flex',gap:1,alignItems:'center',color: Color}}>    
@@ -45,14 +45,21 @@ export default function BoardColumn({onDelete,onEdit, color, bgColor, title, ico
                 backgroundColor: '#8f8f8f',
             },
             }}>
-                {filterApplications.map((application) => (
+            
+            {filterApplications.length  === 0 ? (
+                <Typography variant="body2" sx={{textAlign: 'center', color: '#777',mt: 4}}>
+                    No applications in the status yet.
+                </Typography>
+            ) : (
+                filterApplications.map((application) => (
                     <ApplicationCard  
                         key={application.id}
                         application={application}
                         onEdit={onEdit}
                         onDelete={onDelete}
                     />
-                ))}
+                ))
+            )}
             </Box>
         </Box>
         </>
