@@ -30,51 +30,66 @@ export default function ApplicationCard({ application, onEdit, onDelete }) {
     return(
         <Card variant="outlined" 
         sx={{ borderRadius: 2,
+            width:'100%',
+            boxSizing:'border-box',
+            minWidth:0,
             borderColor: '#e6e7ee',
             boxShadow: 'none',
             opacity: isDragging ? 0.5 : 1,
             zIndex: isDragging ? 1000 : 'auto',
-            cursor: isDragging ? 'grabbing' : 'grab',
+            // cursor: isDragging ? 'grabbing' : 'grab',
             transition: isDragging ? 'none' :  'transform 200ms ease',
             transform: transform 
                 ? `translate3d(${transform.x}px, ${transform.y}px,0)` 
                 : undefined
         }}
-        ref={setNodeRef}       //this is the element should be draggable
-            {...listeners}     //Adds the mouse/pointer/touch events needed for dragging
-            {...attributes}    //Adds accessibility-related attributes needed by dnd-kit.
-        >
+        ref={setNodeRef} //this is the element should be draggable 
+        >          
             <CardContent sx={{p: 2}}>
                 <Box sx={{ display: 'flex', gap: 1, alignItems: 'flex-start' }}>
-                    <Avatar variant = "rounded" sx={{width: 30,height: 30,fontSize: 20,bgcolor: '#f0f1f6',color: '#4b4e63'}}>
-                        {company.charAt(0)}
-                    </Avatar>
+                    {/* Dragged card in this area  */}
+                    <Box            
+                    {...listeners} //Adds the mouse/pointer/touch events needed for dragging
+                    {...attributes} //Adds accessibility-related attributes needed by dnd-kit.
+                    sx={{cursor: isDragging ? 'grabbing' : 'grab',
+                        display:'flex',gap:2,
+                        alignItems: 'center'
+                    }}>   
 
-                    <Box sx={{flex: 1}}>
-                        <Typography sx={{fontSize: '14px',fontWeight: 600,color: '#202238'}}>
-                            {role}
-                        </Typography>
+                        <Avatar variant = "rounded" sx={{width: 30,height: 30,fontSize: 20,bgcolor: '#f0f1f6',color: '#4b4e63'}}>
+                            {company.charAt(0)}
+                        </Avatar>
 
-                        <Typography variant="body2" sx={{color: '#7b7f91',mt: 0.2}}>
-                            {company}
-                        </Typography>
+                        <Box sx={{flex: 1}}>
+                            <Typography sx={{fontSize: '14px',fontWeight: 600,color: '#202238'}}>
+                                {role}
+                            </Typography>
+                            <Typography variant="body2" sx={{color: '#7b7f91',mt: 0.2}}>
+                                {company}
+                            </Typography>
+                        </Box>
                     </Box>
 
                     <IconButton size="small" sx={{color: '#85899a'}}
+                    onPointerDown={(e) => e.stopPropagation()}
                     onClick={(e) => setAnchorEl(e.currentTarget)}>
                         <MoreVertIcon fontSize="small" />
                     </IconButton>
 
                     <Menu anchorEl={anchorEl} 
-                    open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
-                        <MenuItem onClick={() => {
+                    open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}
+                    onClick={(e) => e.stopPropagation()}
+                    onPointerDown={(e) => e.stopPropagation()} >
+                        <MenuItem onClick={(e) => {
+                            e.stopPropagation();
                             onEdit(application);
                             setAnchorEl(null);
                         }}>
                             Edit
                         </MenuItem>
 
-                        <MenuItem onClick={() =>{
+                        <MenuItem onClick={(e) =>{
+                            e.stopPropagation();
                             setOpenDeleteDialog(true);
                             setAnchorEl(null);
                         }}>
@@ -95,7 +110,10 @@ export default function ApplicationCard({ application, onEdit, onDelete }) {
                             <Button onClick={() => setOpenDeleteDialog(false)}>
                                 Cancel
                             </Button>
-                            <Button color="error" onClick={() => onDelete(application.id)}>
+                            <Button color="error" onClick={() => {
+                                onDelete(application.id);
+                                setOpenDeleteDialog(false);
+                            }}>
                                 Delete
                             </Button>
                         </DialogActions>

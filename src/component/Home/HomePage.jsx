@@ -4,7 +4,7 @@ import BoardColumn from './BoardColumn.jsx'
 import Box from '@mui/material/Box';
 import AddApplicationForm from './AddApplicationForm.jsx';
 import BoardColumnHeader from './BoardColumnHeader.jsx';
-import { DndContext } from '@dnd-kit/core';
+import { DndContext,DragOverlay  } from '@dnd-kit/core';
 
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import NearMeIcon from '@mui/icons-material/NearMe';
@@ -12,6 +12,7 @@ import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import CancelIcon from '@mui/icons-material/Cancel';
 import StatsBar from './StatsBar.jsx';
+import SearchFilter from './SearchFilter.jsx';
 
 export default function HomePage() {
     //load saved applications
@@ -23,6 +24,18 @@ export default function HomePage() {
     const [openAddForm, setOpenAddForm] = useState(false);
     const [editApplication, setEditApplication] = useState(null);
     const [openEditApplication, setOpenEditApplication] = useState(false);
+    const [searchFilter,setSearchFilter] = useState('');
+
+    //search filter
+    const filteredApplications  = applications.filter((application) => {
+        const search = searchFilter.toLowerCase();
+
+        return(
+            application.role?.toLowerCase().includes(search) ||
+            application.company?.toLowerCase().includes(search) ||
+            application.notes?.toLowerCase().includes(search)   
+        );
+    });
 
     //add card btn function
     let handleAddCard = () => {
@@ -92,35 +105,35 @@ export default function HomePage() {
             status: 'wishlist',
             icon : FavoriteBorderIcon,
             color: '#ed3886',
-            bgColor: '#ffe3ef'
+            bgColor: '#ffd7e8'
         },
         {
             title: 'Applied',
             status: 'applied',
             icon: NearMeIcon,
             color: '#3856ed',
-            bgColor: '#e6e3ff'
+            bgColor: '#d8d3ff'
         },
         {
             title: 'Interview',
             status: 'interview',
             icon: PeopleAltIcon,
             color: '#c038ed',
-            bgColor: '#f9e3ff'
+            bgColor: '#f4d0fe'
         },
         {
             title: 'Offer',
             status: 'offer',
             icon: CardGiftcardIcon,
             color: '#7ded38',
-            bgColor: '#e2fdde'
+            bgColor: '#d4ffce'
         },
         {
             title: 'Rejected',
             status: 'rejected',
             icon: CancelIcon,
             color: '#ed3e38',
-            bgColor: '#ffdada'
+            bgColor: '#ffc9c9'
         },
     ];
 
@@ -129,9 +142,12 @@ export default function HomePage() {
         <BoardColumnHeader onAddcard={handleAddCard}/>
         <StatsBar applications={applications}/>
 
-        <Box sx={{width:'100%', p:2, boxSizing: 'border-box'}}>
+        <Box sx={{width:'100%',p:2,boxSizing:'border-box',border:'1px solid #eeeeee',borderRadius:3,backgroundColor:'#ffff',mt:2}}>
+            <SearchFilter searchFilter={searchFilter} setSearchFilter={setSearchFilter}/>
+
+            <Box sx={{width:'100%', boxSizing: 'border-box'}}>
             <DndContext onDragEnd={handleDragEnd}>
-            <Box sx={{display:'flex', gap:1, width: '100%'}}>
+            <Box sx={{display:'flex', gap:1, width: '100%',alignItems:'flex-start'}}>
                 {columns.map((column) => (
                     <BoardColumn 
                         key={column.status}
@@ -142,11 +158,12 @@ export default function HomePage() {
                         status={column.status} 
                         onEdit={handleEditApplication}
                         onDelete={handleDeleteApplication}
-                        applications={applications} 
+                        applications={filteredApplications} 
                     />
                 ))}
             </Box>
             </DndContext>
+        </Box>
 
             <AddApplicationForm 
                 open={openAddForm}

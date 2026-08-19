@@ -31,10 +31,10 @@ export default function StatsBar({applications}) {
     : 0;
     
     return(
-        <Box sx={{width:'100%',display:'flex',mt:2,mb:2,gap:2,pl:3}}>
+        <Box sx={{width:'100%',display:'flex',mt:2,mb:2,gap:2}}>
             {/* TotalApplied */}
-            <Box sx={{display:'flex',alignItems:'center',gap:2,p:3,backgroundColor:'#fff',
-            border:'1px solid #eeeeee', borderRadius:3,width:200
+            <Box sx={{display:'flex',alignItems:'center',gap:2,p:2,backgroundColor:'#fff',
+            border:'1px solid #eeeeee', borderRadius:3,width:200,ml:4
             }}>
                 {/* icon */}
                 <Box sx={{display:'flex',justifyContent: 'center',alignItems:'center',width:50,

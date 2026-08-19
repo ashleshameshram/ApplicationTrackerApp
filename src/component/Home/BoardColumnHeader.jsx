@@ -7,7 +7,7 @@ export default function BoardColumnHeader({onAddcard}) {
     return(
         <Box sx={{display:'flex',justifyContent:'space-between',alignItems:'center' ,mt:2, mx:3}}>
             <Typography variant='h5' sx={{fontWeight:500,color:'#202238'}} >
-                    Job Application
+                ApplyIQ - Job Application Tracker
             </Typography>
     
             <Button variant='contained' onClick={onAddcard} sx={{textTransform:'none',
