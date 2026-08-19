@@ -11,6 +11,7 @@ import NearMeIcon from '@mui/icons-material/NearMe';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import CancelIcon from '@mui/icons-material/Cancel';
+import StatsBar from './StatsBar.jsx';
 
 export default function HomePage() {
     //load saved applications
@@ -125,9 +126,10 @@ export default function HomePage() {
 
     return(
         <>
-        <Box sx={{width:'100%', p:2, boxSizing: 'border-box'}}>
-            <BoardColumnHeader onAddcard={handleAddCard}/>
+        <BoardColumnHeader onAddcard={handleAddCard}/>
+        <StatsBar applications={applications}/>
 
+        <Box sx={{width:'100%', p:2, boxSizing: 'border-box'}}>
             <DndContext onDragEnd={handleDragEnd}>
             <Box sx={{display:'flex', gap:1, width: '100%'}}>
                 {columns.map((column) => (

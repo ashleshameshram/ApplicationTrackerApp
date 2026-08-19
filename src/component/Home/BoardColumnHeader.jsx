@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 
 export default function BoardColumnHeader({onAddcard}) {
     return(
-        <Box sx={{display:'flex',justifyContent:'space-between',alignItems:'center',mb:2}}>
+        <Box sx={{display:'flex',justifyContent:'space-between',alignItems:'center' ,mt:2, mx:3}}>
             <Typography variant='h5' sx={{fontWeight:500,color:'#202238'}} >
                     Job Application
             </Typography>

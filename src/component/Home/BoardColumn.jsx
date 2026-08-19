@@ -29,11 +29,6 @@ export default function BoardColumn({onDelete,onEdit, color, bgColor, title, ico
                         {title}
                     </Typography>
                 </Box>
-                
-                <Box sx={{minWidth: 24,height: 24,borderRadius: '50%',backgroundColor: '#ffffff',
-                display: 'flex',alignItems: 'center',justifyContent: 'center',fontSize: 12,color: '#777b8e'}}>
-                    {filterApplicationsLength}
-                </Box>
             </Box>
 
             <Box sx={{display:"flex", flexDirection:"column",gap:1}}>
