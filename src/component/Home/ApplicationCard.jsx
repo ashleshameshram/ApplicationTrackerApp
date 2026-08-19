@@ -28,16 +28,16 @@ export default function ApplicationCard({ application, onEdit, onDelete }) {
     });
 
     return(
-        <Card variant="outlined" 
+        <Card variant="outlined"    
         sx={{ borderRadius: 2,
             width:'100%',
             boxSizing:'border-box',
             minWidth:0,
+            flexShrink: 0,
             borderColor: '#e6e7ee',
             boxShadow: 'none',
             opacity: isDragging ? 0.5 : 1,
             zIndex: isDragging ? 1000 : 'auto',
-            // cursor: isDragging ? 'grabbing' : 'grab',
             transition: isDragging ? 'none' :  'transform 200ms ease',
             transform: transform 
                 ? `translate3d(${transform.x}px, ${transform.y}px,0)` 

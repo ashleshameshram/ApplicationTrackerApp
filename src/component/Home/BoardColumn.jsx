@@ -20,9 +20,9 @@ export default function BoardColumn({onDelete,onEdit, color, bgColor, title, ico
     return(
         <>
         <Box sx={{backgroundColor: BgColor ,borderRadius: 4,padding: 2,flex:1,minWidth: 0,
-        height: 400,boxSizing:'border-box',display:'flex',flexDirection:'column'}} 
+        height: 400,overflow:'hidden',boxSizing:'border-box',display:'flex',flexDirection:'column'}} 
         ref={setNodeRef}>
-            <Box sx={{display:'flex', justifyContent:'space-between',alignItems:'center',mb:1.5}}>
+            <Box sx={{display:'flex', justifyContent:'space-between',alignItems:'center',mb:1.5,flexShrink:0}}>
                 <Box sx={{display:'flex',gap:1,alignItems:'center',color: Color}}>    
                     <Icon sx={{fontSize:23}}></Icon>
                     <Typography variant='subtitle1' sx={{fontWeight: 400}}>
@@ -32,7 +32,19 @@ export default function BoardColumn({onDelete,onEdit, color, bgColor, title, ico
             </Box>
 
             <Box sx={{display:"flex", flexDirection:"column",gap:1,overflowY:'auto',overflowX:'hidden',
-            flex:1,pr:0.5,minHeight:0,minWidth:0}}>
+            flex:1,pr:1,minHeight:0,minWidth:0,
+            '&::-webkit-scrollbar': {width: '4px'},
+            '&::-webkit-scrollbar-track': {
+                background: 'transparent',
+            },
+            '&::-webkit-scrollbar-thumb': {
+                backgroundColor: '#b8b8b8',
+                borderRadius: '10px',
+            },
+            '&::-webkit-scrollbar-thumb:hover': {
+                backgroundColor: '#8f8f8f',
+            },
+            }}>
                 {filterApplications.map((application) => (
                     <ApplicationCard  
                         key={application.id}

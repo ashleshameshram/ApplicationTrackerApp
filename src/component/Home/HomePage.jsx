@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import BoardColumn from './BoardColumn.jsx'
 import Box from '@mui/material/Box';
 import AddApplicationForm from './AddApplicationForm.jsx';
+import ApplicationCard from './ApplicationCard.jsx';
 import BoardColumnHeader from './BoardColumnHeader.jsx';
 import { DndContext,DragOverlay  } from '@dnd-kit/core';
 
@@ -25,6 +26,11 @@ export default function HomePage() {
     const [editApplication, setEditApplication] = useState(null);
     const [openEditApplication, setOpenEditApplication] = useState(false);
     const [searchFilter,setSearchFilter] = useState('');
+    const [activeId, setActiveId] = useState(null);
+
+    const handleDragStart = (e) => {
+        setActiveId(e.active.id);
+    }
 
     //search filter
     const filteredApplications  = applications.filter((application) => {
@@ -81,6 +87,7 @@ export default function HomePage() {
 
     //drag-end event
     const handleDragEnd = (e) => {
+        setActiveId(null);
         const  draggedId = e.active.id;
         const droppedStatus = e.over?.id;
         if(!droppedStatus) return;
@@ -145,25 +152,33 @@ export default function HomePage() {
         <Box sx={{width:'100%',p:2,boxSizing:'border-box',border:'1px solid #eeeeee',borderRadius:3,backgroundColor:'#ffff',mt:2}}>
             <SearchFilter searchFilter={searchFilter} setSearchFilter={setSearchFilter}/>
 
-            <Box sx={{width:'100%', boxSizing: 'border-box'}}>
-            <DndContext onDragEnd={handleDragEnd}>
-            <Box sx={{display:'flex', gap:1, width: '100%',alignItems:'flex-start'}}>
-                {columns.map((column) => (
-                    <BoardColumn 
-                        key={column.status}
-                        icon={column.icon}
-                        color={column.color}
-                        bgColor={column.bgColor}
-                        title={column.title} 
-                        status={column.status} 
-                        onEdit={handleEditApplication}
-                        onDelete={handleDeleteApplication}
-                        applications={filteredApplications} 
-                    />
-                ))}
+            <Box sx={{width:'100%', boxSizing: 'border-box',pt:2}}>
+                <DndContext onDragEnd={handleDragEnd} onDragStart={handleDragStart}>
+                    <Box sx={{display:'flex',gap:1, width: '100%',alignItems:'flex-start'}}>
+                        {columns.map((column) => (
+                            <BoardColumn 
+                                key={column.status}
+                                icon={column.icon}
+                                color={column.color}
+                                bgColor={column.bgColor}
+                                title={column.title} 
+                                status={column.status} 
+                                onEdit={handleEditApplication}
+                                onDelete={handleDeleteApplication}
+                                applications={filteredApplications} 
+                            />
+                        ))}
+                    </Box>
+                    <DragOverlay> 
+                        {activeId ? (
+                            <ApplicationCard application={applications.find(
+                                    (application) => application.id === activeId
+                                )}
+                            />
+                        ) : null}
+                    </DragOverlay>
+                </DndContext>
             </Box>
-            </DndContext>
-        </Box>
 
             <AddApplicationForm 
                 open={openAddForm}
