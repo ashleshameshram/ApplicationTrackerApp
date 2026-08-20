@@ -145,57 +145,57 @@ export default function HomePage() {
     ];
 
     return(
-        <>
-        <BoardColumnHeader onAddcard={handleAddCard}/>
-        <StatsBar applications={applications}/>
+        <Box sx={{ px: { xs: 1.5, sm: 2, md: 3 } }}>
+            <BoardColumnHeader onAddcard={handleAddCard}/>
+            <StatsBar applications={applications}/>
 
-        <Box sx={{width:'100%',p:2,boxSizing:'border-box',border:'1px solid #eeeeee',borderRadius:3,backgroundColor:'#ffff',mt:2}}>
-            <SearchFilter searchFilter={searchFilter} setSearchFilter={setSearchFilter}/>
+            <Box sx={{width:'100%',p:2,boxSizing:'border-box',border:'1px solid #eeeeee',borderRadius:3,backgroundColor:'#ffff',mt:2}}>
+                <SearchFilter searchFilter={searchFilter} setSearchFilter={setSearchFilter}/>
 
-            <Box sx={{width:'100%', boxSizing: 'border-box',pt:2}}>
-                <DndContext onDragEnd={handleDragEnd} onDragStart={handleDragStart}>
-                    <Box sx={{display:'flex',gap:1, width: '100%',alignItems:'flex-start'}}>
-                        {columns.map((column) => (
-                            <BoardColumn 
-                                key={column.status}
-                                icon={column.icon}
-                                color={column.color}
-                                bgColor={column.bgColor}
-                                title={column.title} 
-                                status={column.status} 
-                                onEdit={handleEditApplication}
-                                onDelete={handleDeleteApplication}
-                                applications={filteredApplications} 
-                            />
-                        ))}
-                    </Box>
-                    <DragOverlay> 
-                        {activeId ? (
-                            <ApplicationCard application={applications.find(
-                                    (application) => application.id === activeId
-                                )}
-                            />
-                        ) : null}
-                    </DragOverlay>
-                </DndContext>
+                <Box sx={{width:'100%', boxSizing: 'border-box',pt:2}}>
+                    <DndContext onDragEnd={handleDragEnd} onDragStart={handleDragStart}>
+                        <Box sx={{display:'flex',gap:1, width: '100%',alignItems:'flex-start',overflowX:'auto'}}>
+                            {columns.map((column) => (
+                                <BoardColumn 
+                                    key={column.status}
+                                    icon={column.icon}
+                                    color={column.color}
+                                    bgColor={column.bgColor}
+                                    title={column.title} 
+                                    status={column.status} 
+                                    onEdit={handleEditApplication}
+                                    onDelete={handleDeleteApplication}
+                                    applications={filteredApplications} 
+                                />
+                            ))}
+                        </Box>
+                        <DragOverlay> 
+                            {activeId ? (
+                                <ApplicationCard application={applications.find(
+                                        (application) => application.id === activeId
+                                    )}
+                                />
+                            ) : null}
+                        </DragOverlay>
+                    </DndContext>
+                </Box>
+
+                <AddApplicationForm 
+                    open={openAddForm}
+                    onClose={() => setOpenAddForm(false)}
+                    onAddApplication={handleAddApplication}
+                />
+
+                <AddApplicationForm 
+                    open={openEditApplication}
+                    onClose={() => {
+                        setOpenEditApplication(false);
+                        setEditApplication(null);
+                    }}
+                    applications={editApplication}
+                    onAddApplication={handleUpdateApplication}
+                />
             </Box>
-
-            <AddApplicationForm 
-                open={openAddForm}
-                onClose={() => setOpenAddForm(false)}
-                onAddApplication={handleAddApplication}
-            />
-
-            <AddApplicationForm 
-                open={openEditApplication}
-                onClose={() => {
-                    setOpenEditApplication(false);
-                    setEditApplication(null);
-                }}
-                applications={editApplication}
-                onAddApplication={handleUpdateApplication}
-            />
         </Box>
-        </>
     )
 }
