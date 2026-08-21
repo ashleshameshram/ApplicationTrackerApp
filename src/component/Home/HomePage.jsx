@@ -5,6 +5,8 @@ import Box from '@mui/material/Box';
 import AddApplicationForm from './AddApplicationForm.jsx';
 import ApplicationCard from './ApplicationCard.jsx';
 import BoardColumnHeader from './BoardColumnHeader.jsx';
+import StatsBar from './StatsBar.jsx';
+import SearchFilter from './SearchFilter.jsx';
 import { DndContext,DragOverlay  } from '@dnd-kit/core';
 
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -12,8 +14,7 @@ import NearMeIcon from '@mui/icons-material/NearMe';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import CancelIcon from '@mui/icons-material/Cancel';
-import StatsBar from './StatsBar.jsx';
-import SearchFilter from './SearchFilter.jsx';
+
 
 export default function HomePage() {
     //load saved applications
@@ -154,7 +155,12 @@ export default function HomePage() {
 
                 <Box sx={{width:'100%', boxSizing: 'border-box',pt:2}}>
                     <DndContext onDragEnd={handleDragEnd} onDragStart={handleDragStart}>
-                        <Box sx={{display:'flex',gap:1, width: '100%',alignItems:'flex-start',overflowX:'auto'}}>
+
+                        <Box  sx={{
+                            display: 'grid',
+                            gridTemplateColumns: { xs: 'repeat(2, 1fr)', sm: 'repeat(3, 1fr)', md: 'repeat(auto-fit, minmax(220px, 1fr))' },
+                            gap: { xs: 1, sm: 1.5, md: 2 },
+                        }}>
                             {columns.map((column) => (
                                 <BoardColumn 
                                     key={column.status}

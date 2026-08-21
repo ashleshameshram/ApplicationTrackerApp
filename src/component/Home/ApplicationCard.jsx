@@ -57,41 +57,50 @@ export default function ApplicationCard({ application, onEdit, onDelete }) {
                 borderColor: '#e2e4ee',
             },
         }}
-        ref={setNodeRef} //this is the element should be draggable 
+        ref={setNodeRef}
         >          
-            <CardContent sx={{p: 2, '&:last-child': { pb: 2 }}}>
-                <Box sx={{ display: 'flex', gap: 1, alignItems: 'flex-start' }}>
-                    {/* Dragged card in this area  */}
+            <CardContent sx={{ p: { xs: 0.75, sm: 1.5, md: 2 }, '&:last-child': { pb: { xs: 0.75, sm: 1.5, md: 2 } } }}>
+                <Box sx={{ display: 'flex', gap: 0.75, alignItems: 'flex-start' }}>
                     <Box            
-                    {...listeners} //Adds the mouse/pointer/touch events needed for dragging
-                    {...attributes} //Adds accessibility-related attributes needed by dnd-kit.
+                    {...listeners}
+                    {...attributes}
                     sx={{cursor: isDragging ? 'grabbing' : 'grab',
-                        display:'flex',gap:1.5,
+                        display:'flex',gap: { xs: 0.75, sm: 1.5 },
                         alignItems: 'center',
                         flex:1,minWidth:0
                     }}>   
 
-                        <Avatar variant = "rounded" sx={{width: 33,height: 33,fontSize: 18,
-                        bgcolor: '#e1e1e2',color:'#1a1a1c',flexShrink:0,borderRadius:'16px'}}>
+                        <Avatar variant="rounded" sx={{
+                            width: { xs: 20, sm: 30, md: 33 },
+                            height: { xs: 20, sm: 30, md: 33 },
+                            fontSize: { xs: 11, sm: 16, md: 18 },
+                            bgcolor: '#e1e1e2', color:'#1a1a1c', flexShrink:0, borderRadius:'12px'
+                        }}>
                             {company?.charAt(0)}
                         </Avatar>
 
                         <Box sx={{flex: 1,minWidth:0}}>
-                            <Typography sx={{fontSize: '13px',fontWeight: 600,color: '#202238',
-                            lineHeight:1.3,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>
+                            <Typography sx={{
+                                fontSize: { xs: '9px', sm: '12px', md: '13px' },
+                                fontWeight: 600, color: '#202238',
+                                lineHeight:1.3,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'
+                            }}>
                                 {role}
                             </Typography>
-                            <Typography variant="body2" sx={{fontSize:'12px',color: '#777777',mt: 0.2,
-                            whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>
+                            <Typography variant="body2" sx={{
+                                fontSize: { xs: '8px', sm: '11px', md: '12px' },
+                                color: '#777777',mt: 0.2,
+                                whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'
+                            }}>
                                 {company}
                             </Typography>
                         </Box>
                     </Box>
 
-                    <IconButton size="small" sx={{color: '#a7abbd',mt: -0.5}}
+                    <IconButton size="small" sx={{color: '#a7abbd',mt: -0.5, p: { xs: 0.25, sm: 1 }}}
                     onPointerDown={(e) => e.stopPropagation()}
                     onClick={(e) => setAnchorEl(e.currentTarget)}>
-                        <MoreVertIcon fontSize="small" />
+                        <MoreVertIcon sx={{ fontSize: { xs: 14, sm: 20 } }} />
                     </IconButton>
 
                     <Menu anchorEl={anchorEl} 
@@ -115,7 +124,10 @@ export default function ApplicationCard({ application, onEdit, onDelete }) {
                         </MenuItem>
                     </Menu>
 
-                    <Dialog open={openDeleteDialog} onClose={() => setOpenDeleteDialog(false)}>
+                    <Dialog open={openDeleteDialog} onClose={() => setOpenDeleteDialog(false)}
+                        fullWidth
+                        maxWidth="xs"
+                    >
                         <DialogTitle>Delete Application?</DialogTitle>
 
                         <DialogContent>
@@ -138,16 +150,22 @@ export default function ApplicationCard({ application, onEdit, onDelete }) {
                     </Dialog>
                 </Box>
 
-                <Box sx={{display: 'flex',justifyContent: 'space-between',alignItems: 'center',mt: 1.5}}>
+                <Box sx={{display: 'flex',justifyContent: 'space-between',alignItems: 'center',mt: { xs: 0.75, sm: 1.5 }}}>
                     <Box sx={{display: 'flex',alignItems: 'center',gap: 0.4,minWidth:0}}> 
-                        <LocationPinIcon sx={{fontSize: 15,color: '#6b6f82',flexShrink:0}}/>
-                        <Typography variant="body2" sx={{fontSize: 11,color: '#6b6f82'}}>
+                        <LocationPinIcon sx={{fontSize: { xs: 11, sm: 14, md: 15 },color: '#6b6f82',flexShrink:0}}/>
+                        <Typography variant="body2" sx={{
+                            fontSize: { xs: 8, sm: 10.5, md: 11 }, color: '#6b6f82',
+                            whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'
+                        }}>
                             {location}
                         </Typography>
                     </Box>
 
-                    <Typography variant="caption" sx={{fontSize: 11,color: '#171616',
-                    flexShrink: 0, ml: 1,backgroundColor:"#f1d4ff",borderRadius:10,px:1 }}>
+                    <Typography variant="caption" sx={{
+                        fontSize: { xs: 8, sm: 10.5, md: 11 }, color: '#171616',
+                        flexShrink: 0, ml: 1, backgroundColor:"#f1d4ff", borderRadius:10,
+                        px: { xs: 0.5, sm: 1 }
+                    }}>
                         {formatDate(applicationDate)}
                     </Typography>
                 </Box>
