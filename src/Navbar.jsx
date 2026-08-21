@@ -1,8 +1,13 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
+import { Link } from 'react-router-dom';
 
-const navLinks = ['Home','My Application', 'AI Assistant'];
+const navLinks = [
+    { label : 'Home', path:'/'},
+    { label : 'My Application', path: '/myapplications'},
+    { label : 'AI-Assistant', path: '/ai-assistant'}
+];
 
 export default function Navbar() {
     return (
@@ -59,9 +64,9 @@ export default function Navbar() {
             }}>
                 {navLinks.map((link) => (
                     <Typography
-                        key={link}
-                        component="a"
-                        href="#"
+                        key={link.label}
+                        component={Link}
+                        to={link.path}
                         sx={{
                             fontSize: { xs: '0.75rem', sm: '0.9rem', md: '1.1rem' },
                             fontWeight: 500,
@@ -79,7 +84,7 @@ export default function Navbar() {
                             },
                         }}
                     >
-                        {link}
+                        {link.label}
                     </Typography>
                 ))}
             </Box>

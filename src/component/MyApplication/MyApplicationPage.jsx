@@ -17,7 +17,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import BoardColumnHeader from './BoardColumnHeader.jsx';
 
 
-export default function HomePage() {
+export default function MyApplicationPage() {
     //load saved applications
     const [applications, setApplications] = useState(() => {
         const savedApplications = localStorage.getItem('applications');
