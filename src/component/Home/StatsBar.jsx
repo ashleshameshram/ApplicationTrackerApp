@@ -6,6 +6,7 @@ import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import AutoGraphIcon from '@mui/icons-material/AutoGraph';
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import CancelIcon from '@mui/icons-material/Cancel';
+import Typography from '@mui/material/Typography';
 
 export default function StatsBar({applications}) {
     const totalApplied = applications.filter(
@@ -37,6 +38,7 @@ export default function StatsBar({applications}) {
         { icon: CancelIcon, iconColor: '#ed3e38', iconBg: '#ffdada', label: 'Rejections', value: rejections },
     ];
     return(
+        <>
         <Box sx={{
             width:'100%',
             display:'flex',
@@ -48,5 +50,6 @@ export default function StatsBar({applications}) {
                 <StatCard key={stat.label} {...stat}/>
             ))}
         </Box>
+        </>
     )
 }

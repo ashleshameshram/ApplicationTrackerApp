@@ -4,16 +4,17 @@ import BoardColumn from './BoardColumn.jsx'
 import Box from '@mui/material/Box';
 import AddApplicationForm from './AddApplicationForm.jsx';
 import ApplicationCard from './ApplicationCard.jsx';
-import BoardColumnHeader from './BoardColumnHeader.jsx';
+import AddApplicationRow from './AddApplicationRow.jsx';
 import StatsBar from './StatsBar.jsx';
 import SearchFilter from './SearchFilter.jsx';
-import { DndContext,DragOverlay  } from '@dnd-kit/core';
 
+import { DndContext,DragOverlay  } from '@dnd-kit/core';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import NearMeIcon from '@mui/icons-material/NearMe';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import CancelIcon from '@mui/icons-material/Cancel';
+import BoardColumnHeader from './BoardColumnHeader.jsx';
 
 
 export default function HomePage() {
@@ -146,9 +147,11 @@ export default function HomePage() {
     ];
 
     return(
-        <Box sx={{ px: { xs: 1.5, sm: 2, md: 3 } }}>
-            <BoardColumnHeader onAddcard={handleAddCard}/>
+        <Box sx={{ px: { xs: 1.5, sm: 2, md: 3 }, pt: { xs: 9, sm: 10,md:7 } }}>
+            <AddApplicationRow onAddcard={handleAddCard}/>
             <StatsBar applications={applications}/>
+            
+            <BoardColumnHeader />
 
             <Box sx={{width:'100%',p:2,boxSizing:'border-box',border:'1px solid #eeeeee',borderRadius:3,backgroundColor:'#ffff',mt:2}}>
                 <SearchFilter searchFilter={searchFilter} setSearchFilter={setSearchFilter}/>
