@@ -65,7 +65,7 @@ export default function BoardColumn({onDelete,onEdit, color, bgColor, title, ico
 
             <Box sx={{display:"flex", flexDirection:"column",gap: { xs: 0.75, md: 1 },
             overflowY:'auto',overflowX:'hidden',
-            maxHeight: { xs: 300, sm: 340, md: 400 },
+            maxHeight: { xs: 300, sm: 340, md: 300 },
             pr: { xs: 0.5, sm: 1 },minWidth:0,
             '&::-webkit-scrollbar': {width: '4px'},
             '&::-webkit-scrollbar-track': {
