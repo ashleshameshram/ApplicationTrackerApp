@@ -9,7 +9,7 @@ export default function AIAssistantPage() {
         <Box sx={{overflowX:'hidden'}}>  
             <AIAssistantHeader />
             <ResumeJDMatch />
-            <InterviewPrep /> 
+            <InterviewPrep />  
         </Box>
     )
 }

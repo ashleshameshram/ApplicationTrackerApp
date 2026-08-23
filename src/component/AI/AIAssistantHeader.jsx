@@ -1,17 +1,14 @@
-import React from 'react';
 import { Box, Typography, Stack } from '@mui/material';
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 
 export default function AIAssistantHeader() {
   return (
     <Stack
       direction="row"
-      alignItems="center"
       spacing={2}
       sx={{
         width: '100%',
         px: { xs: 2, sm: 3 },
-        py: { xs: 1.5, sm: 2,md:4 },
+        py: { xs: 1.5, sm: 2 },
         my : { xs: 1,sm:2, md:8},
         borderRadius: 2,
       }}
