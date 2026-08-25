@@ -1,10 +1,26 @@
+import { useState } from 'react'
+import JobDescription from './JobDescription';
 import ResumeUpload from './ResumeUpload';
-
-import {Box,Typography,TextField,Chip,Button,Stack,} from '@mui/material';
-import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 
+import { Box, Stack,Typography, Button } from '@mui/material';
+
 export default function ResumeJDMatch() {
+    const [jobDescription, setJobDescription] = useState("");
+    const [resumeText,setResumeText] = useState('');
+    const [analysisResult, setAnalysisResult] = useState(null);
+    
+
+    let handleAnalyzeButton = () => {
+        if (!jobDescription.trim()){
+            console.log("Please enter a job application");
+        }
+        if(!resumeText.trim()){
+            console.log("Please upload a resume");
+            return;
+        }
+    }
+    
     return(
         <>
         <Box
@@ -58,50 +74,13 @@ export default function ResumeJDMatch() {
             </Box>
         </Stack>
 
-        {/* Job description box */}
-        <Box
-            sx={{
-            border: '1px solid #E7E3F2',
-            borderRadius: { xs: 1.75, sm: 2.5 },
-            p: { xs: 1.25, sm: 2 },
-            mb: { xs: 1.25, sm: 2 },
-        }}>
-            <Stack direction="row" alignItems="center" spacing={0.8} sx={{ mb: 1 }}>
-            <DescriptionOutlinedIcon sx={{ fontSize: { xs: 15, sm: 18 }, color: '#6D28D9' }} />
-            <Typography
-                sx={{
-                fontFamily: "'Sora', sans-serif",
-                fontWeight: 600,
-                fontSize: { xs: '0.75rem', sm: '0.88rem' },
-                color: '#1F1436',
-            }}>
-                Job Description
-            </Typography>
-            </Stack>
-
-            <TextField
-                multiline
-                minRows={{ xs: 3, sm: 4 }}
-                maxRows={8}
-                fullWidth
-                placeholder="Paste job description here..."
-                sx={{
-                    '& .MuiOutlinedInput-root': {
-                    fontFamily: "'Inter', sans-serif",
-                    fontSize: { xs: '0.78rem', sm: '0.88rem' },
-                    borderRadius: '10px',
-                    background: '#FAFAFC',
-                    '& fieldset': { borderColor: '#E7E3F2' },
-                    '&:hover fieldset': { borderColor: '#C9BEEB' },
-                    '&.Mui-focused fieldset': { borderColor: '#6D28D9' },
-                    },
-                }}/>
-            </Box>
-
-          <ResumeUpload />
+    
+        <JobDescription setJobDescription={setJobDescription} />
+        <ResumeUpload setResumeText={setResumeText} />
 
         {/* Analyze button */}
         <Button
+            onClick={handleAnalyzeButton}
             fullWidth
             startIcon={<AutoAwesomeIcon sx={{ fontSize: { xs: 15, sm: 18 } }} />}
             sx={{

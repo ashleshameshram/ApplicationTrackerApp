@@ -24,11 +24,10 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
-export default function ResumeUpload() {
+export default function ResumeUpload( { setResumeText }) {
     const [resumeFile,setResumeFile] = useState(null);
-    const [resumeText,setResumeText] = useState('');
 
-     let handleResumeUpload = async (e) => {
+    let handleResumeUpload = async (e) => {
         const file = e.target.files[0];
         setResumeFile(file);
 
