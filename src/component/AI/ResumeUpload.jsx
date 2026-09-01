@@ -24,29 +24,38 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
-export default function ResumeUpload( { setResumeText }) {
+export default function ResumeUpload( { setResumeText, setIsExtracting  }) {
     const [resumeFile,setResumeFile] = useState(null);
 
     let handleResumeUpload = async (e) => {
         const file = e.target.files[0];
+
+        if(!file) return;
         setResumeFile(file);
+        setIsExtracting(true);
 
-        const arrayBuffer = await file.arrayBuffer();
-        
-        const pdf = await pdfjsLib.getDocument({
-            data: arrayBuffer,
-        }).promise;
+        try{
+            const arrayBuffer = await file.arrayBuffer();
+            
+            const pdf = await pdfjsLib.getDocument({
+                data: arrayBuffer,
+            }).promise;
 
-        let extractedText = "";
+            let extractedText = "";
 
-        for(let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++){
-            const page = await pdf.getPage(pageNumber);
-            const textContent = await page.getTextContent();
-            const pageText = textContent.items
-                .map((item) => item.str).join(' ');
-            extractedText += pageText + '\n';
+            for(let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++){
+                const page = await pdf.getPage(pageNumber);
+                const textContent = await page.getTextContent();
+                const pageText = textContent.items
+                    .map((item) => item.str).join(' ');
+                extractedText += pageText + '\n';
+            }
+            setResumeText(extractedText.trim());
+        }catch(e){
+            console.error("Resume extraction failed:", e);
+        }finally {
+            setIsExtracting(false);
         }
-        setResumeText(extractedText.trim());
     }
 
     return(

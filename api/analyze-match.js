@@ -1,20 +1,9 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { generateMockAnalysis } from "./mock-analysis.js";
+// import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const apiKey = process.env.GEMINI_API_KEY;
-const genAI = new GoogleGenerativeAI(apiKey);
-
-const model = genAI.getGenerativeModel({
-    model : "gemini-3.6-flash",
-});
-
+const USE_MOCK_AI = true;
 
 export default async function handler(req,res){
-    if(!apiKey){
-        return res.status(500).json({
-            message: "Gemini API Key is missing"
-        });
-    }
-    
     if(req.method !== 'POST') {
         return res.status(405).json({
             message: "Method not allowed"
@@ -28,6 +17,25 @@ export default async function handler(req,res){
             message: "Resume text and job description are required"
         });
     }
+    
+    if(USE_MOCK_AI) {
+        return res.status(200).json(
+            generateMockAnalysis(resumeText, jobDescription)
+        );
+    }
+
+    const apiKey = process.env.GEMINI_API_KEY;
+    if(!apiKey){
+        return res.status(500).json({
+            message: "Gemini API Key is missing"
+        });
+    }
+
+    const genAI = new GoogleGenerativeAI(apiKey);
+
+    const model = genAI.getGenerativeModel({
+        model : "gemini-3.6-flash",
+    });
 
     const prompt = `You are a career-coaching resume analyzer.
 
@@ -54,12 +62,21 @@ export default async function handler(req,res){
 
     Analyze the match and return the JSON as specified above.`;
 
-    const result = await model.generateContent(prompt);
-    const response = result.response;
-    //text in the json format  (Gets the content)
-    const text = response.text();
-    //anaysis is here js object (converts that content into something JavaScript can work with.)
-    const analysis = JSON.parse(text);  //JSON.parse() -> only works if text contains valid JSON.
+    try{
+        const result = await model.generateContent(prompt);
+        const response = result.response;
+        //text in the json format  (Gets the content)
+        const text = response.text();
+        const cleanText = text.replace(/```json/g, "").replace(/```/g, "").trim();
+        //anaysis is here js object (converts that content into something JavaScript can work with.)
+        const analysis = JSON.parse(cleanText);  //JSON.parse() -> only works if text contains valid JSON.
 
-    res.status(200).json(analysis);
+        return res.status(200).json(analysis);
+    }catch(err) {
+        console.error("Gemini analysis failed:", err);
+
+        return res.status(500).json({
+            error: err.message
+        }); 
+    }
 }
