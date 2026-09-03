@@ -3,6 +3,7 @@ import AutoGraphOutlinedIcon from '@mui/icons-material/AutoGraphOutlined';
 import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined';
+import WorkspacePremiumOutlinedIcon from '@mui/icons-material/WorkspacePremiumOutlined';
 
 export default function AIMatchResult({ analysisResult }) {
     return (
@@ -183,8 +184,41 @@ export default function AIMatchResult({ analysisResult }) {
                                 </Typography>
                             </Stack>
                         ))}
-                    </Stack> 
+                    </Stack>
+                </Box>
 
+                {/* Strenghts */}
+                <Box sx={{
+                    width: '180px',
+                    minWidth: 0,
+                    p: { xs: 1.5, sm: 2 },
+                    borderRadius: 2,
+                    border: '1px solid #E7E3F2',
+                    background: '#fff',
+                    boxShadow: 2
+                }}>
+                    <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1.5 }}>
+                        <WorkspacePremiumOutlinedIcon sx={{ fontSize: { xs: 16, sm: 18 , md:20}, color: '#1D9E75' }} />
+                        <Typography
+                            sx={{
+                                fontFamily: "'Sora', sans-serif",
+                                fontWeight: 700,
+                                fontSize: { xs: '0.85rem', sm: '0.95rem' },
+                                color: '#120038',
+                            }}>
+                            Strengths
+                        </Typography>
+                    </Stack>
+
+                    <Typography
+                        sx={{
+                            fontFamily: "'Inter', sans-serif",
+                            fontSize: '0.90rem',
+                            lineHeight: 1.6,
+                            color: '#4B4655',
+                        }}>
+                        {analysisResult?.strengths}
+                    </Typography>
                 </Box>
             </Stack>
         </Box>
