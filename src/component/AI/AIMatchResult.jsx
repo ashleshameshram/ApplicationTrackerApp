@@ -4,6 +4,8 @@ import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutli
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined';
 import WorkspacePremiumOutlinedIcon from '@mui/icons-material/WorkspacePremiumOutlined';
+import TipsAndUpdatesOutlinedIcon from '@mui/icons-material/TipsAndUpdatesOutlined';
+import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined';
 
 export default function AIMatchResult({ analysisResult }) {
     return (
@@ -219,6 +221,47 @@ export default function AIMatchResult({ analysisResult }) {
                         }}>
                         {analysisResult?.strengths}
                     </Typography>
+                </Box>
+
+                {/* AI Suggestions */}
+                <Box sx={{
+                    flex: 1,
+                    minWidth: 0,
+                    p: { xs: 1.5, sm: 2 },
+                    borderRadius: 2,
+                    border: '1px solid #E7E3F2',
+                    background: '#fff',
+                    boxShadow: 2
+                }}>
+                    <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1.5 }}>
+                        <TipsAndUpdatesOutlinedIcon sx={{ fontSize: { xs: 16, sm: 18 , md:20}, color: '#aa0aef' }} />
+                        <Typography
+                            sx={{
+                                fontFamily: "'Sora', sans-serif",
+                                fontWeight: 700,
+                                fontSize: { xs: '0.85rem', sm: '0.95rem' },
+                                color: '#120038',
+                            }}>
+                            AI Suggestions
+                        </Typography>
+                    </Stack>
+
+                    <Stack spacing={1}>
+                        {(analysisResult?.improvementSuggestions || []).map((skill, i) => (
+                            <Stack key={i} direction="row" spacing={1} alignItems="flex-start">
+                                <LightbulbOutlinedIcon sx={{ fontSize: 16, color: '#aa0aef', mt: '2px' }} />
+                                <Typography
+                                    sx={{
+                                        fontFamily: "'Inter', sans-serif",
+                                        fontSize: { xs: '0.78rem', sm: '0.85rem' ,md: 17},
+                                        color: '#3D3652',
+                                        lineHeight: 1
+                                    }}>
+                                    {skill}
+                                </Typography>
+                            </Stack>
+                        ))}
+                    </Stack>
                 </Box>
             </Stack>
         </Box>
