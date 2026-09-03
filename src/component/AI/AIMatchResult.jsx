@@ -2,14 +2,14 @@ import { Box, Typography, Stack } from "@mui/material"
 import AutoGraphOutlinedIcon from '@mui/icons-material/AutoGraphOutlined';
 import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
+import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined';
 
 export default function AIMatchResult({ analysisResult }) {
     return (
         <Box sx={{
-            width: '100%',
+            width: '94%',
             mt: { xs: 2, sm: 3, md: 4 },
             ml: {  xs: 2, sm: 3, md: 3},
-            px: { xs: 2, sm: 3, md: 3 },
             p: { xs: 1.5, sm: 2, md: 2.5 },
             borderRadius: { xs: 2, sm: 3 },
             border: '1px solid #E7E3F2',
@@ -59,6 +59,7 @@ export default function AIMatchResult({ analysisResult }) {
                     border: '1px solid #E7E3F2',
                     p: { xs: 1, sm: 2, md: 2 },
                     borderRadius: 3,
+                    boxShadow:2
                 }}>
                     <Box sx={{
                         position: 'relative',
@@ -105,11 +106,13 @@ export default function AIMatchResult({ analysisResult }) {
 
                 {/* Matching Skills */}
                 <Box sx={{
+                    width: '180px',
                     minWidth: 0,
                     p: { xs: 1.5, sm: 2 },
                     borderRadius: 2,
                     border: '1px solid #E7E3F2',
                     background: '#fff',
+                    boxShadow: 2
                 }}>
                     <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1.5 }}>
                         <CheckCircleOutlineOutlinedIcon sx={{ fontSize: { xs: 16, sm: 18 , md:20}, color: '#1D9E75' }} />
@@ -140,6 +143,48 @@ export default function AIMatchResult({ analysisResult }) {
                             </Stack>
                         ))}
                     </Stack> 
+                </Box>
+
+                {/* Missing skills */}
+                <Box sx={{
+                    width: '180px',
+                    minWidth: 0,
+                    p: { xs: 1.5, sm: 2 },
+                    borderRadius: 2,
+                    border: '1px solid #E7E3F2',
+                    background: '#fff',
+                    boxShadow: 2
+                }}>
+                    <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1.5 }}>
+                        <WarningAmberOutlinedIcon sx={{ fontSize: { xs: 16, sm: 18 , md:20}, color: '#ef280a' }} />
+                        <Typography
+                            sx={{
+                                fontFamily: "'Sora', sans-serif",
+                                fontWeight: 700,
+                                fontSize: { xs: '0.85rem', sm: '0.95rem' },
+                                color: '#120038',
+                            }}>
+                            Missing skills
+                        </Typography>
+                    </Stack>
+
+                    <Stack spacing={1}>
+                        {(analysisResult?.missingSkills || []).map((skill, i) => (
+                            <Stack key={i} direction="row" spacing={1} alignItems="flex-start">
+                                <CheckOutlinedIcon sx={{ fontSize: 16, color: '#ef280a', mt: '2px' }} />
+                                <Typography
+                                    sx={{
+                                        fontFamily: "'Inter', sans-serif",
+                                        fontSize: { xs: '0.78rem', sm: '0.85rem' ,md: 17},
+                                        color: '#3D3652',
+                                        lineHeight: 1
+                                    }}>
+                                    {skill}
+                                </Typography>
+                            </Stack>
+                        ))}
+                    </Stack> 
+
                 </Box>
             </Stack>
         </Box>

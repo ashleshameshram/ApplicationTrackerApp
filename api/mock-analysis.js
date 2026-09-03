@@ -10,7 +10,10 @@ export function generateMockAnalysis(resumeText, jobDescription) {
         "git",
         "node.js",
         "express.js",
-        "mongodb"
+        "mongodb",
+        "figma",
+        "vercel",
+        "Redux Toolkit"
     ];
 
     const matchedSkills = skills.filter(
