@@ -1,4 +1,5 @@
 import { Box, Typography, Stack } from '@mui/material';
+import TipsAndUpdatesOutlinedIcon from '@mui/icons-material/TipsAndUpdatesOutlined';
 
 export default function AIAssistantHeader() {
   return (
@@ -8,8 +9,9 @@ export default function AIAssistantHeader() {
       sx={{
         width: '100%',
         px: { xs: 2, sm: 3 },
-        py: { xs: 1.5, sm: 2 },
-        my : { xs: 1,sm:2, md:8},
+        py: { xs: 1.5, sm: 2, },
+        mt: {xs: 2, sm:2, md: 8},
+        my : { xs: 1,sm:2},
         borderRadius: 2,
       }}
     >
@@ -25,11 +27,21 @@ export default function AIAssistantHeader() {
             fontSize: { xs: '1.1rem', sm: '1.35rem', md: '1.8rem' },
           }}
         >
-          AI Assistant
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <TipsAndUpdatesOutlinedIcon sx={{ 
+              fontSize: { xs: 18, sm: 22, md: 30 },
+              color: '#30003a'
+            }} />
+            <Typography sx={{ display: { xs: 'none', sm: 'block', md: 'flex' },
+            fontSize: { xs: 18, sm: 22, md: 25 }}}>
+              AI Assistant
+            </Typography>
+          </Box>
         </Typography>
         <Typography
           sx={{
             fontFamily: "'Inter', sans-serif",
+            
             fontSize: { xs: '0.8rem', sm: '0.88rem' },
             color: '#6B6478',
             whiteSpace: { xs: 'normal', sm: 'nowrap' },

@@ -5,12 +5,10 @@
 
     import { Box, Stack,Typography, Button } from '@mui/material';
 
-    export default function ResumeJDMatch() {
+    export default function ResumeJDMatch({ setAnalysisResult }) {
         const [jobDescription, setJobDescription] = useState("");
         const [resumeText,setResumeText] = useState('');
-        const [analysisResult, setAnalysisResult] = useState(null);
         const [isExtracting, setIsExtracting] = useState(false);
-
 
         const handleAnalyzeButton = async () => {
             if (!jobDescription.trim()) {
@@ -35,9 +33,8 @@
             });
 
             const data = await response.json();
-
             setAnalysisResult(data);
-            console.log("Analysis Result:", data);
+            console.log(data);
         }
         
         return(
