@@ -44,7 +44,7 @@ export default function AIAssistantHeader() {
             overflow: 'hidden',
             textOverflow: 'ellipsis',
           }}>
-          Get AI-powered insights to improve your application success.
+          Smart AI tools to help you apply better and prepare smarter.
         </Typography>
       </Box>
     </Stack>

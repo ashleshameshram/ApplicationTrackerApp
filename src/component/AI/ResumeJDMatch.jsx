@@ -9,17 +9,24 @@
         const [jobDescription, setJobDescription] = useState("");
         const [resumeText,setResumeText] = useState('');
         const [isExtracting, setIsExtracting] = useState(false);
+        const [inputMessage, setInputMessage] = useState("");
 
         const handleAnalyzeButton = async () => {
-            if (!jobDescription.trim()) {
-                console.log("Please enter a job description");
+            if (!jobDescription.trim() && !resumeText.trim()) {
+                setInputMessage("Add your resume and a job description to analyze your match.");
+                return;
+            }
+            if(!jobDescription.trim()) {
+                setInputMessage("Add a job description to analyze your match.");
                 return;
             }
 
             if (!resumeText.trim()) {
-                console.log("Please upload a resume");
+                setInputMessage("Upload your resume to analyze your match.");
                 return;
             }
+            setInputMessage("");
+
             const response = await fetch('/api/analyze-match',{
                 method: "POST",
                 headers : {
@@ -85,15 +92,33 @@
                     color: '#6B6478',
                     mt: 0.3,
                 }}>
-                    Compare your resume with a job description and discover how well they  match.
+                    Compare your resume with a job description and see how well they  match.
                 </Typography>
                 </Box>
             </Stack>
 
         
-            <JobDescription setJobDescription={setJobDescription} />
-            <ResumeUpload setResumeText={setResumeText} setIsExtracting={setIsExtracting}/>
+            <JobDescription setJobDescription={setJobDescription} setInputMessage={setInputMessage} />
+            <ResumeUpload setResumeText={setResumeText} 
+            setIsExtracting={setIsExtracting}
+            setInputMessage={setInputMessage} />
 
+            {inputMessage && (
+                <Typography
+                    sx={{
+                        fontFamily: "'Inter', sans-serif",
+                        fontSize: { xs: '0.72rem', sm: '0.82rem' },
+                        color: '#d93728',
+                        fontStyle: 'italic',
+                        background: '#F5F1FE',
+                        borderRadius: '8px',
+                        px: 1.5,
+                        py: 1,
+                        mb: 1.5,
+                    }}>
+                {inputMessage}
+                </Typography>
+            )}
             {/* Analyze button */}
             <Button
                 onClick={handleAnalyzeButton}

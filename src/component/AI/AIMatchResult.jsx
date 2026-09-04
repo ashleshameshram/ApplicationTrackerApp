@@ -1,82 +1,149 @@
 import { Box, Typography, Stack } from "@mui/material"
-import AutoGraphOutlinedIcon from '@mui/icons-material/AutoGraphOutlined';
-import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
-import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
-import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined';
-import WorkspacePremiumOutlinedIcon from '@mui/icons-material/WorkspacePremiumOutlined';
+import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
+import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
+import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 import TipsAndUpdatesOutlinedIcon from '@mui/icons-material/TipsAndUpdatesOutlined';
-import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined';
 
-export default function AIMatchResult({ analysisResult }) {
+function SkillChip({ label, color, bg }) {
     return (
         <Box sx={{
-            width: '94%',
-            mt: { xs: 2, sm: 3, md: 4 },
-            ml: {  xs: 2, sm: 3, md: 3},
-            p: { xs: 1.5, sm: 2, md: 2.5 },
+            px: 1.4,
+            py: 0.5,
+            borderRadius: '999px',
+            background: bg,
+            fontFamily: "'Inter', sans-serif",
+            fontSize: '0.78rem',
+            fontWeight: 500,
+            color: color,
+            whiteSpace: 'nowrap',
+        }}>
+            {label}
+        </Box>
+    );
+}
+
+function SkillGroup({ icon, title, skills = [], chipColor, chipBg }) {
+    return (
+        <Box>
+            <Stack direction="row" spacing={0.75} alignItems="center" sx={{ mb: 1 }}>
+                {icon}
+                <Typography sx={{
+                    fontFamily: "'Sora', sans-serif",
+                    fontWeight: 700,
+                    fontSize: '0.9rem',
+                    color: '#120038',
+                }}>
+                    {title}
+                </Typography>
+            </Stack>
+            <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap', rowGap: 1 }}>
+                {skills.length > 0 ? (
+                    skills.map((skill, i) => (
+                        <SkillChip key={i} label={skill} color={chipColor} bg={chipBg} />
+                    ))
+                ) : (
+                    <Typography sx={{ fontFamily: "'Inter', sans-serif", fontSize: '0.8rem', color: '#9B96A8' }}>
+                        None found
+                    </Typography>
+                )}
+            </Stack>
+        </Box>
+    );
+}
+
+function InsightPanel({ icon, title, titleColor, items = [], emptyText }) {
+    return (
+        <Box sx={{ flex: 1, minWidth: 0 }}>
+            <Stack direction="row" spacing={0.75} alignItems="center" sx={{ mb: 1 }}>
+                {icon}
+                <Typography sx={{
+                    fontFamily: "'Sora', sans-serif",
+                    fontWeight: 700,
+                    fontSize: '0.88rem',
+                    color: titleColor,
+                }}>
+                    {title}
+                </Typography>
+            </Stack>
+            {items.length > 0 ? (
+                <Stack spacing={0.75}>
+                    {items.map((item, i) => (
+                        <Typography key={i} sx={{
+                            fontFamily: "'Inter', sans-serif",
+                            fontSize: '0.83rem',
+                            color: '#3D3652',
+                            lineHeight: 1.5,
+                        }}>
+                            •&nbsp; {item}
+                        </Typography>
+                    ))}
+                </Stack>
+            ) : (
+                <Typography sx={{ fontFamily: "'Inter', sans-serif", fontSize: '0.8rem', color: '#9B96A8' }}>
+                    {emptyText}
+                </Typography>
+            )}
+        </Box>
+    );
+}
+
+export default function AIMatchResult({ analysisResult }) {
+    const matchedSkills = analysisResult?.matchedSkills || [];
+    const missingSkills = analysisResult?.missingSkills || [];
+    const strengths = analysisResult?.strengths || [];
+    const suggestions = analysisResult?.improvementSuggestions || [];
+    const score = analysisResult?.matchScore || 0;
+
+    const verdict = score >= 80 ? "Good Match"
+        : score >= 60 ? "Fair Match"
+        : "Needs Work";
+
+    return (
+        <Box sx={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            p: { xs: 1.75, sm: 2.5 },
             borderRadius: { xs: 2, sm: 3 },
             border: '1px solid #E7E3F2',
             background: '#fff',
         }}>
-            {/* Title + subtitle — full width, on top */}
-            <Box sx={{ mb: { xs: 2, sm: 2.5 } }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <AutoGraphOutlinedIcon sx={{
-                        fontSize: { xs: 18, sm: 22, md: 24 },
-                        color: '#30003a'
-                    }} />
-                    <Typography sx={{
-                        fontSize: { xs: 16, sm: 18, md: 20 },
-                        fontFamily: "'Sora', sans-serif",
-                        fontWeight: 700,
-                        color: '#120038',
-                    }}>
-                        Match Result
-                    </Typography>
-                </Box>
-                <Typography
-                    sx={{
-                        fontFamily: "'Inter', sans-serif",
-                        fontSize: { xs: '0.8rem', sm: '0.88rem' },
-                        color: '#6B6478',
-                        mt: 0.5,
-                    }}
-                >
-                    AI analysis of your resume against the job description
-                </Typography>
-            </Box>
+            {/* Header */}
+            <Typography sx={{
+                fontFamily: "'Sora', sans-serif",
+                fontWeight: 700,
+                fontSize: { xs: '1rem', sm: '1.1rem' },
+                color: '#120038',
+                mb: 2.5,
+            }}>
+                Match Result
+            </Typography>
 
-            {/* Row: Score + Matching skills + (Missing skills, Suggestions later) */}
-            <Stack
-                direction={{ xs: 'column', md: 'row' }}
-                sx={{ width: '100%', gap: { xs: 2, md: 2 } }}
-            >
-                {/* Match Score */}
+            {/* Left column: score ring | Right column: 2 rows */}
+            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 4 }} sx={{ flex: 1 }}>
+
+                {/* Left column — score ring, spans full height */}
                 <Box sx={{
                     display: 'flex',
+                    flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
                     flexShrink: 0,
-                    width: { xs: '100%', md: 170 },
-                    minHeight: 150,
-                    border: '1px solid #E7E3F2',
-                    p: { xs: 1, sm: 2, md: 2 },
-                    borderRadius: 3,
-                    boxShadow:2
                 }}>
                     <Box sx={{
                         position: 'relative',
                         width: 140,
                         height: 140,
                         borderRadius: '50%',
-                        background: `conic-gradient(from 0deg, #3AA76D 0deg, #6D28D9 ${(analysisResult?.matchScore || 0) * 3.6}deg, #EFE9FE ${(analysisResult?.matchScore || 0) * 3.6}deg 360deg)`,
+                        background: `conic-gradient(from 0deg, #6D28D9 ${score * 3.6}deg, #EFE9FE ${score * 3.6}deg 360deg)`,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                     }}>
                         <Box sx={{
-                            width: 120,
-                            height: 120,
+                            width: 115,
+                            height: 115,
                             borderRadius: '50%',
                             background: '#fff',
                             display: 'flex',
@@ -84,185 +151,88 @@ export default function AIMatchResult({ analysisResult }) {
                             alignItems: 'center',
                             justifyContent: 'center',
                         }}>
-                            <Typography
-                                sx={{
-                                    fontFamily: "'Sora', sans-serif",
-                                    fontSize: '2rem',
-                                    fontWeight: 700,
-                                    color: '#2D1B69',
-                                }}>
-                                {analysisResult?.matchScore}%
+                            <Typography sx={{
+                                fontFamily: "'Sora', sans-serif",
+                                fontSize: '1.9rem',
+                                fontWeight: 700,
+                                color: '#120038',
+                                lineHeight: 1,
+                            }}>
+                                {score}%
                             </Typography>
-                            <Typography
-                                sx={{
-                                    fontFamily: "'Inter', sans-serif",
-                                    fontSize: '0.75rem',
-                                    fontWeight: 600,
-                                    color: '#3AA76D',
-                                    mt: 0.5,
-                                }}>
-                                Good Match
+                            <Typography sx={{
+                                fontFamily: "'Inter', sans-serif",
+                                fontSize: '0.78rem',
+                                fontWeight: 600,
+                                color: '#1D9E75',
+                                mt: 0.5,
+                            }}>
+                                {verdict}
                             </Typography>
                         </Box>
                     </Box>
                 </Box>
 
-                {/* Matching Skills */}
-                <Box sx={{
-                    width: '180px',
-                    minWidth: 0,
-                    p: { xs: 1.5, sm: 2 },
-                    borderRadius: 2,
-                    border: '1px solid #E7E3F2',
-                    background: '#fff',
-                    boxShadow: 2
-                }}>
-                    <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1.5 }}>
-                        <CheckCircleOutlineOutlinedIcon sx={{ fontSize: { xs: 16, sm: 18 , md:20}, color: '#1D9E75' }} />
-                        <Typography
-                            sx={{
-                                fontFamily: "'Sora', sans-serif",
-                                fontWeight: 700,
-                                fontSize: { xs: '0.85rem', sm: '0.95rem' },
-                                color: '#120038',
-                            }}>
-                            Matching skills
-                        </Typography>
+                {/* Right column — 2x2 grid */}
+                <Stack spacing={2.5} sx={{ flex: 1, minWidth: 0, width: '100%' }}>
+                    {/* Row 1: Matched + Missing */}
+                    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 2.5, sm: 4 }}>
+                        <Box sx={{ flex: 1, minWidth: 0 }}>
+                            <SkillGroup
+                                title="Matched Skills"
+                                skills={matchedSkills}
+                                chipColor="#1D9E75"
+                                chipBg="#E9F7F1"
+                                icon={<CheckCircleOutlinedIcon sx={{ fontSize: 18, color: '#1D9E75' }} />}
+                            />
+                        </Box>
+                        <Box sx={{ flex: 1, minWidth: 0 }}>
+                            <SkillGroup
+                                title="Missing Skills"
+                                skills={missingSkills}
+                                chipColor="#D9480F"
+                                chipBg="#FDEEE9"
+                                icon={<ErrorOutlineOutlinedIcon sx={{ fontSize: 18, color: '#D9480F' }} />}
+                            />
+                        </Box>
                     </Stack>
 
-                    <Stack spacing={1}>
-                        {(analysisResult?.matchedSkills || []).map((skill, i) => (
-                            <Stack key={i} direction="row" spacing={1} alignItems="flex-start">
-                                <CheckOutlinedIcon sx={{ fontSize: 16, color: '#1D9E75', mt: '2px' }} />
-                                <Typography
-                                    sx={{
-                                        fontFamily: "'Inter', sans-serif",
-                                        fontSize: { xs: '0.78rem', sm: '0.85rem' ,md: 17},
-                                        color: '#3D3652',
-                                        lineHeight: 1
-                                    }}>
-                                    {skill}
-                                </Typography>
-                            </Stack>
-                        ))}
-                    </Stack> 
-                </Box>
-
-                {/* Missing skills */}
-                <Box sx={{
-                    width: '180px',
-                    minWidth: 0,
-                    p: { xs: 1.5, sm: 2 },
-                    borderRadius: 2,
-                    border: '1px solid #E7E3F2',
-                    background: '#fff',
-                    boxShadow: 2
-                }}>
-                    <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1.5 }}>
-                        <WarningAmberOutlinedIcon sx={{ fontSize: { xs: 16, sm: 18 , md:20}, color: '#ef280a' }} />
-                        <Typography
-                            sx={{
-                                fontFamily: "'Sora', sans-serif",
-                                fontWeight: 700,
-                                fontSize: { xs: '0.85rem', sm: '0.95rem' },
-                                color: '#120038',
-                            }}>
-                            Missing skills
-                        </Typography>
-                    </Stack>
-
-                    <Stack spacing={1}>
-                        {(analysisResult?.missingSkills || []).map((skill, i) => (
-                            <Stack key={i} direction="row" spacing={1} alignItems="flex-start">
-                                <CheckOutlinedIcon sx={{ fontSize: 16, color: '#ef280a', mt: '2px' }} />
-                                <Typography
-                                    sx={{
-                                        fontFamily: "'Inter', sans-serif",
-                                        fontSize: { xs: '0.78rem', sm: '0.85rem' ,md: 17},
-                                        color: '#3D3652',
-                                        lineHeight: 1
-                                    }}>
-                                    {skill}
-                                </Typography>
-                            </Stack>
-                        ))}
-                    </Stack>
-                </Box>
-
-                {/* Strenghts */}
-                <Box sx={{
-                    width: '180px',
-                    minWidth: 0,
-                    p: { xs: 1.5, sm: 2 },
-                    borderRadius: 2,
-                    border: '1px solid #E7E3F2',
-                    background: '#fff',
-                    boxShadow: 2
-                }}>
-                    <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1.5 }}>
-                        <WorkspacePremiumOutlinedIcon sx={{ fontSize: { xs: 16, sm: 18 , md:20}, color: '#1D9E75' }} />
-                        <Typography
-                            sx={{
-                                fontFamily: "'Sora', sans-serif",
-                                fontWeight: 700,
-                                fontSize: { xs: '0.85rem', sm: '0.95rem' },
-                                color: '#120038',
-                            }}>
-                            Strengths
-                        </Typography>
-                    </Stack>
-
-                    <Typography
-                        sx={{
-                            fontFamily: "'Inter', sans-serif",
-                            fontSize: '0.90rem',
-                            lineHeight: 1.6,
-                            color: '#4B4655',
+                    {/* Row 2: Strengths + AI Suggestions */}
+                    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ mt: 'auto' }}>
+                        <Box sx={{
+                            flex: 1,
+                            minWidth: 0,
+                            p: { xs: 1.75, sm: 2 },
+                            borderRadius: 2,
+                            border: '1px solid #E7E3F2',
+                            background: '#FBFBFD',
                         }}>
-                        {analysisResult?.strengths}
-                    </Typography>
-                </Box>
-
-                {/* AI Suggestions */}
-                <Box sx={{
-                    flex: 1,
-                    minWidth: 0,
-                    p: { xs: 1.5, sm: 2 },
-                    borderRadius: 2,
-                    border: '1px solid #E7E3F2',
-                    background: '#fff',
-                    boxShadow: 2
-                }}>
-                    <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1.5 }}>
-                        <TipsAndUpdatesOutlinedIcon sx={{ fontSize: { xs: 16, sm: 18 , md:20}, color: '#aa0aef' }} />
-                        <Typography
-                            sx={{
-                                fontFamily: "'Sora', sans-serif",
-                                fontWeight: 700,
-                                fontSize: { xs: '0.85rem', sm: '0.95rem' },
-                                color: '#120038',
-                            }}>
-                            AI Suggestions
-                        </Typography>
+                            <InsightPanel
+                                title="Strengths"
+                                titleColor="#6D28D9"
+                                items={Array.isArray(strengths) ? strengths : (strengths ? [strengths] : [])}
+                                emptyText="No strengths identified yet"
+                                icon={<StarOutlinedIcon sx={{ fontSize: 18, color: '#6D28D9' }} />}
+                            />
+                        </Box>
+                        <Box sx={{
+                            flex: 1,
+                            minWidth: 0,
+                            p: { xs: 1.75, sm: 2 },
+                            borderRadius: 2,
+                            border: '1px solid #E7E3F2',
+                            background: '#FBFBFD',
+                        }}>
+                            <InsightPanel
+                                title="AI Suggestions"
+                                titleColor="#378ADD"
+                                items={suggestions}
+                                emptyText="No suggestions available"
+                                icon={<TipsAndUpdatesOutlinedIcon sx={{ fontSize: 18, color: '#378ADD' }} />}
+                            />
+                        </Box>
                     </Stack>
-
-                    <Stack spacing={1}>
-                        {(analysisResult?.improvementSuggestions || []).map((skill, i) => (
-                            <Stack key={i} direction="row" spacing={1} alignItems="flex-start">
-                                <LightbulbOutlinedIcon sx={{ fontSize: 16, color: '#aa0aef', mt: '2px' }} />
-                                <Typography
-                                    sx={{
-                                        fontFamily: "'Inter', sans-serif",
-                                        fontSize: { xs: '0.78rem', sm: '0.85rem' ,md: 17},
-                                        color: '#3D3652',
-                                        lineHeight: 1
-                                    }}>
-                                    {skill}
-                                </Typography>
-                            </Stack>
-                        ))}
-                    </Stack>
-                </Box>
+                </Stack>
             </Stack>
         </Box>
     )

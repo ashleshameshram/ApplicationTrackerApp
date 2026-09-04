@@ -1,7 +1,7 @@
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import {Box,Typography,TextField,Stack,} from '@mui/material';
 
-export default function JobDescription({ setJobDescription }) {
+export default function JobDescription({ setJobDescription, setInputMessage }) {
     return(
         <Box
             sx={{
@@ -28,7 +28,11 @@ export default function JobDescription({ setJobDescription }) {
                 minRows={{ xs: 3, sm: 4 }}
                 maxRows={8}
                 fullWidth
-                onChange={(e) => setJobDescription(e.target.value)}
+                onChange={(e) => {
+                    setJobDescription(e.target.value);
+                    setInputMessage("");
+                }}
+
                 placeholder="Paste job description here..."
                 sx={{
                     '& .MuiOutlinedInput-root': {

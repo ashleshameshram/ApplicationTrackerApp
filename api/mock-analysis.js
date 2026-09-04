@@ -4,28 +4,25 @@ export function generateMockAnalysis(resumeText, jobDescription) {
 
     const skills = [
         "javascript",
-        "react",
         "html",
         "css",
         "git",
-        "node.js",
-        "express.js",
         "mongodb",
         "figma",
         "vercel",
-        "Redux Toolkit"
+        "redux toolkit"
     ];
 
     const matchedSkills = skills.filter(
-        skill =>
-            resumeText.toLowerCase().includes(skill) &&
-            jd.includes(skill)
+    skill =>
+        resumeText.toLowerCase().includes(skill.toLowerCase()) &&
+        jd.includes(skill.toLowerCase())
     );
 
     const missingSkills = skills.filter(
         skill =>
-            jd.includes(skill) &&
-            !resumeText.toLowerCase().includes(skill)
+            jd.includes(skill.toLowerCase()) &&
+            !resumeText.toLowerCase().includes(skill.toLowerCase())
     );
 
     const matchScore = Math.min(

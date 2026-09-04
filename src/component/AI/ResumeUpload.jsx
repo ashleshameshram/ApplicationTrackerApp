@@ -24,7 +24,7 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
-export default function ResumeUpload( { setResumeText, setIsExtracting  }) {
+export default function ResumeUpload( { setResumeText, setIsExtracting ,setInputMessage }) {
     const [resumeFile,setResumeFile] = useState(null);
 
     let handleResumeUpload = async (e) => {
@@ -51,6 +51,7 @@ export default function ResumeUpload( { setResumeText, setIsExtracting  }) {
                 extractedText += pageText + '\n';
             }
             setResumeText(extractedText.trim());
+            setInputMessage("");
         }catch(e){
             console.error("Resume extraction failed:", e);
         }finally {

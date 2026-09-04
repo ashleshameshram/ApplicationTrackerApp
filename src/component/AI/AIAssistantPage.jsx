@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Box } from '@mui/material';
 import AIAssistantHeader from './AIAssistantHeader';
 import AIAssistantRow from './AIAssistantRow';
-import AIMatchResult from './AIMatchResult';
+import InterviewPrep from './InterviewPrep.jsx'
 
 export default function AIAssistantPage() {
     const [analysisResult, setAnalysisResult] = useState(null);
@@ -10,8 +10,11 @@ export default function AIAssistantPage() {
     return(
         <Box sx={{overflowX:'hidden'}}>  
             <AIAssistantHeader />
-            <AIAssistantRow setAnalysisResult={setAnalysisResult}/>
-            <AIMatchResult analysisResult={analysisResult}/>
+            <AIAssistantRow 
+                setAnalysisResult={setAnalysisResult} 
+                analysisResult={analysisResult}
+            />
+            <InterviewPrep />
         </Box>
     )
 }
