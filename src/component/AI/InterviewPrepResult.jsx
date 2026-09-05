@@ -1,10 +1,12 @@
-import { Box, Typography, Stack } from "@mui/material"
+import { Box, Typography, Stack, Button } from "@mui/material"
+import { useState } from "react";
 
 const ORANGE = '#F97316';
 const MAX_VISIBLE = 3;
 
 function QuestionColumn({ title, questions = [] }) {
-    const visible = questions.slice(0, MAX_VISIBLE);
+    const [showAll, setShowAll] = useState(false);
+    const visible = showAll ? questions : questions.slice(0,MAX_VISIBLE);
     const remaining = questions.length - visible.length;
 
     return (
@@ -49,21 +51,29 @@ function QuestionColumn({ title, questions = [] }) {
                 </Typography>
             )}
 
-            {remaining > 0 && (
-                <Box sx={{
-                    display: 'inline-block',
+            {questions.length > MAX_VISIBLE && (
+            <Button onClick={() => setShowAll((prev) => !prev)}
+                sx={{
                     mt: 1.25,
                     px: 1.2,
                     py: 0.4,
+                    minWidth: 0,
                     borderRadius: '999px',
                     background: '#FFF1E7',
                     fontFamily: "'Inter', sans-serif",
                     fontSize: '0.75rem',
                     fontWeight: 500,
                     color: ORANGE,
+                    textTransform: 'none',
+                    '&:hover': {
+                        background: '#FFE5D1',
+                    }
                 }}>
-                    ...and {remaining} more
-                </Box>
+                    {showAll
+                        ? 'See less'
+                        : `...and ${questions.length - MAX_VISIBLE} more`
+                    }
+                </Button>
             )}
         </Box>
     );
