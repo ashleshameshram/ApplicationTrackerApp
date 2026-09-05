@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Box, Typography, Stack, Autocomplete, TextField, Checkbox, FormControlLabel, Button } from '@mui/material';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
+import { generateMockInterviewQuestions } from '../../../api/mock-interview-prep.js'
 
 const PURPLE = '#1F1436';
-
 const ROLE_OPTIONS = ['Frontend Developer', 'Backend Developer', 'Full Stack Developer', 'Data Analyst'];
 
 function Pill({ label, selected, onClick }) {
@@ -35,7 +35,7 @@ function Pill({ label, selected, onClick }) {
     );
 }
 
-export default function InterviewPrepForm({ onGenerate }) {
+export default function InterviewPrep({ setInterviewResult }) {
     const [role, setRole] = useState('Frontend Developer');
     const [difficulty, setDifficulty] = useState('intermediate');
     const [focusAreas, setFocusAreas] = useState({
@@ -50,7 +50,13 @@ export default function InterviewPrepForm({ onGenerate }) {
     };
 
     const handleGenerate = () => {
-        onGenerate?.({ role, difficulty, focusAreas, numQuestions });
+        const result = generateMockInterviewQuestions({
+            role,
+            difficulty,
+            focusAreas,
+            numQuestions,
+        });
+        setInterviewResult(result);
     };
 
     const difficultyOptions = ['Beginner', 'Intermediate', 'Advanced'];
