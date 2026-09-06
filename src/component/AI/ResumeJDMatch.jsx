@@ -133,7 +133,7 @@
                     py: { xs: 0.9, sm: 1.3 },
                     borderRadius: { xs: '8px', sm: '10px' },
                     color: '#fff',
-                    background: '#1F1436',
+                    background: '#2f224c',
                     '&:hover': { background: '#150D26' },
                 }}>                  
                 {isExtracting ? "Extracting Resume..." : "Analyze Match"}

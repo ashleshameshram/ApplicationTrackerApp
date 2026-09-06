@@ -1,4 +1,4 @@
-import { generateMockInterviewQuestions } from "./mock-interview-prep";
+import { generateMockInterviewQuestions } from "./mock-interview-prep.js";
 
 const USE_MOCK_AI = true;
 

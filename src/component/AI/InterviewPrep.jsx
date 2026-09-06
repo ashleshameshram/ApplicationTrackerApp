@@ -38,8 +38,9 @@ function Pill({ label, selected, onClick }) {
 }
 
 export default function InterviewPrep({ setInterviewResult }) {
+    const [isGenerating, setIsGenerating] = useState(false);
     const [role, setRole] = useState('Frontend Developer');
-    const [difficulty, setDifficulty] = useState('');
+    const [difficulty, setDifficulty] = useState('beginner');
     const [focusAreas, setFocusAreas] = useState({
         technical: false,
         behavioral: false,
@@ -50,18 +51,19 @@ export default function InterviewPrep({ setInterviewResult }) {
         setFocusAreas((prev) => ({ ...prev, [key]: !prev[key] }));
     };
 
-    const handleGenerate = () => {
+    const handleGenerate = async () => {
         const hasFocusArea = Object.values(focusAreas).some(Boolean);
 
         if (!hasFocusArea) {
             return;
         }
+        setIsGenerating(true);
         
         try{
             const response = await fetch('/api/interview-prep',{
                 method: 'POST',
                 headers : {
-                    "Content-Type" : "application/json",
+                    "Content-Type" : "application/json",   //json data sending
                 },
                 body: JSON.stringify({
                     role,
@@ -75,8 +77,11 @@ export default function InterviewPrep({ setInterviewResult }) {
             const data = await response.json();
             setInterviewResult(data);
         }
-        catch{
+        catch(error){
             console.error("Interview prep failed:", error);
+        }
+        finally{
+            setIsGenerating(false);
         }
     };
 
@@ -267,6 +272,7 @@ export default function InterviewPrep({ setInterviewResult }) {
                     {/* Row 2: Generate button — own row, content-sized, centered */}
                     <Box sx={{ display: 'flex', justifyContent: { xs: 'stretch', sm: 'center' } }}>
                         <Button
+                            disabled={isGenerating}
                             onClick={handleGenerate}
                             startIcon={<AutoAwesomeIcon sx={{ fontSize: 16 }} />}
                             sx={{
@@ -284,7 +290,7 @@ export default function InterviewPrep({ setInterviewResult }) {
                                 '&:hover': { background: '#E0670F' },
                             }}
                         >
-                            Generate Questions
+                            {isGenerating ? 'Generating Questions...' : 'Generate Questions'}
                         </Button>
                     </Box>
                 </Stack>
