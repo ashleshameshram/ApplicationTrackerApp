@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Box, Typography, Stack, Autocomplete, TextField, Checkbox, FormControlLabel, Button } from '@mui/material';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
-import { generateMockInterviewQuestions } from '../../../api/mock-interview-prep.js'
 
 const ORANGE = '#F97316';
 const ROLE_OPTIONS = ['Frontend Developer', 'Backend Developer', 'Full Stack Developer', 'Data Analyst'];
@@ -52,12 +51,33 @@ export default function InterviewPrep({ setInterviewResult }) {
     };
 
     const handleGenerate = () => {
-        const result = generateMockInterviewQuestions({
-            role,
-            difficulty,
-            focusAreas,
-        });
-        setInterviewResult(result);
+        const hasFocusArea = Object.values(focusAreas).some(Boolean);
+
+        if (!hasFocusArea) {
+            return;
+        }
+        
+        try{
+            const response = await fetch('/api/interview-prep',{
+                method: 'POST',
+                headers : {
+                    "Content-Type" : "application/json",
+                },
+                body: JSON.stringify({
+                    role,
+                    difficulty,
+                    focusAreas
+                }),
+            });
+            if(!response.ok){
+                throw new Error("Failed to generate interview questions");
+            }
+            const data = await response.json();
+            setInterviewResult(data);
+        }
+        catch{
+            console.error("Interview prep failed:", error);
+        }
     };
 
     const difficultyOptions = ['Beginner', 'Intermediate', 'Advanced'];
