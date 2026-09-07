@@ -6,7 +6,50 @@ const apiKey = process.env.GEMINI_API_KEY;
 const genAI = new GoogleGenerativeAI(apiKey);
 const model = genAI.getGenerativeModel({
     model : "gemini-3.6-flash",
+    generationConfig: {
+        temperature: 0.6,
+        maxOutputTokens: 800,
+    },
 });
+const QUESTIONS_PER_CATEGORY = 5;
+
+function buildPrompt(role, difficulty, category) {
+    return (
+    `You are an expert technical interviewer and career coach.
+    Generate exactly ${QUESTIONS_PER_CATEGORY} ${category} interview questions for this candidate:
+
+    Role: ${role}
+    Difficulty: ${difficulty}
+
+    Rules:
+    - Questions must be specific to the role and match the difficulty level.
+    - Avoid duplicate or nearly identical questions.
+    - Return ONLY valid JSON, no markdown fences, no explanation text.
+
+    Return exactly this structure:
+    {
+        "questions": [
+            { "category": "${category}", "question": "..." }
+        ]
+    }`);
+}
+async function generateCategoryQuestions(role,difficulty,category){
+    const prompt = buildPrompt(role,difficulty,category);
+    const result = await model.generateContent(prompt);
+    const text = result.response.text();
+    const cleanText = text.replace(/```json/g, "").replace(/```/g, "").trim();
+    const parsed = JSON.parse(cleanText);
+
+    if(!Array.isArray(parsed.questions)) {
+        throw new Error(`Invalid response for category: ${category} `);
+    }
+    for(const item of parsed.questions) {
+        if(!item.category || !item.question){
+            throw new Error(`Invalid question format in category: ${category}`);
+        }
+    }
+    return parsed.questions;
+}
 
 export default async function handler(req,res) {
     if(req.method !== 'POST'){
@@ -32,80 +75,37 @@ export default async function handler(req,res) {
             })
         );
     }
-    const prompt = `You are an expert technical interviewer and career coach.
 
-    Generate interview preparation questions for the following candidate:
+    const categoryMap = {
+        technical: "Technical",
+        behavioral: "Behavioral",
+        hr: "HR / General",
+    };
 
-    Role: ${role}
-    Difficulty: ${difficulty}
-
-    Selected focus areas:
-    ${JSON.stringify(focusAreas)}
-
-    Rules:
-    - Generate exactly 10 questions for EVERY selected focus area.
-    - If Technical is selected, generate 10 Technical questions.
-    - If Behavioral is selected, generate 10 Behavioral questions.
-    - If HR is selected, generate 10 HR / General questions.
-    - Do not generate questions for unselected focus areas.
-    - Questions must be specific to the selected role.
-    - Questions must match the selected difficulty level.
-    - Avoid duplicate or nearly identical questions.
-    - Return ONLY valid JSON.
-    - Do not use markdown code fences.
-    - Do not include any explanation outside the JSON.
-
-    Return exactly this structure:
-
-    {
-        "role": "${role}",
-        "difficulty": "${difficulty}",
-        "questions": [
-            {
-                "category": "Technical",
-                "question": "..."
-            },
-            {
-                "category": "Behavioral",
-                "question": "..."
-            },
-            {
-                "category": "HR / General",
-                "question": "..."
-            }
-        ]
+    const selectedCategories = Object.entries(focusAreas)
+        .filter(([, isSelected]) => isSelected)
+        .map(([key]) => categoryMap[key])
+        .filter(Boolean);
+    
+    if(selectedCategories.length === 0) {
+        return res.status(400).json({
+            message: "At least one focus area must be selected"
+        });
     }
 
-    The questions array should contain only the selected categories.
-    `;
-    try{
-        const result = await model.generateContent(prompt);
-        const response = result.response;
-        const text = response.text();
+    try {
+        const results = await Promise.all(
+            selectedCategories.map((category) => generateCategoryQuestions(role, difficulty, category))
+        );
 
-        const cleanText = text.replace(/```json/g, "").replace(/```/g, "").trim();
+        const questions = results.flat();
 
-        const interviewPrep = JSON.parse(cleanText);
-        console.log("Gemini Interview Response:", interviewPrep);
-        if( !interviewPrep.role || 
-            !interviewPrep.difficulty || 
-            !Array.isArray(interviewPrep.questions)
-        ) {
-            throw new Error("Invalid interview preparation response");
-        }
-        for(const item of interviewPrep.questions){
-            if(!item.category || !item.question){
-                throw new Error("Invalid interview question format");
-            }
-        }
-        return res.status(200).json(interviewPrep);
-
-    }
-    catch(e){
+        return res.status(200).json({ role, difficulty, questions });
+    } catch (e) {
         console.error("Gemini Interview Preparation failed:", e);
         return res.status(500).json({
             message: "Failed to generate interview questions",
-            error: e.message
+            error: e.message,
         });
     }
 }

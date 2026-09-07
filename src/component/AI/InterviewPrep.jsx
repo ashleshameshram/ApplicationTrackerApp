@@ -11,8 +11,8 @@ function Pill({ label, selected, onClick }) {
             onClick={onClick}
             sx={{
                 cursor: 'pointer',
-                px: 2,
-                minHeight: 38,
+                px: 1,
+                minHeight: 35,
                 display: 'inline-flex',
                 alignItems: 'center',
                 borderRadius: '8px',
@@ -20,7 +20,7 @@ function Pill({ label, selected, onClick }) {
                 borderColor: selected ? ORANGE : '#E7E3F2',
                 background: selected ? '#F1EBFC' : '#fff',
                 fontFamily: "'Inter', sans-serif",
-                fontSize: '0.82rem',
+                fontSize: '0.80rem',
                 fontWeight: selected ? 600 : 400,
                 color: selected ? ORANGE : '#3D3652',
                 textAlign: 'center',
@@ -40,6 +40,7 @@ function Pill({ label, selected, onClick }) {
 export default function InterviewPrep({ setInterviewResult }) {
     const [isGenerating, setIsGenerating] = useState(false);
     const [role, setRole] = useState('Frontend Developer');
+    const [specificArea, setSpecificArea] = useState('');
     const [difficulty, setDifficulty] = useState('beginner');
     const [focusAreas, setFocusAreas] = useState({
         technical: false,
@@ -146,13 +147,12 @@ export default function InterviewPrep({ setInterviewResult }) {
                 <Stack spacing={{ xs: 2.5, sm: 3 }}>
 
                     {/* Row 1: Domain/Role + Difficulty + Focus Areas — 3 up */}
-                    <Stack
-                        direction={{ xs: 'column', md: 'row' }}
+                    <Stack direction={{ xs: 'column', md: 'row' }}
                         spacing={{ xs: 2.5, sm: 2.5, md: 3 }}
                         alignItems={{ xs: 'stretch', md: 'flex-start' }}
                     >
                         {/* Domain / Role */}
-                        <Box sx={{ flex: { md: 1 }, minWidth: 0, width: { xs: '100%', md: 'auto' } }}>
+                        <Box sx={{ flex: { md: 0.7 }, minWidth: 0, width: { xs: '100%', md: 'auto' } }}>
                             <Typography sx={{ fontFamily: "'Inter', sans-serif", fontWeight: 600, fontSize: '0.8rem', color: '#3D3652', mb: 0.75 }}>
                                 Domain / Role
                             </Typography>
@@ -180,8 +180,47 @@ export default function InterviewPrep({ setInterviewResult }) {
                             />
                         </Box>
 
+                        {/* Specific Skill / Technology */}
+                        <Box sx={{ flex: { md: 0.7 }, minWidth: 0, width: { xs: '100%', md: 'auto' } }}>
+                            <Typography
+                                sx={{
+                                    fontFamily: "'Inter', sans-serif",
+                                    fontWeight: 600,
+                                    fontSize: '0.8rem',
+                                    color: '#3D3652',
+                                    mb: 0.75,
+                                }}
+                            >
+                                Specific Skill / Technology
+                            </Typography>
+
+                            <TextField
+                                fullWidth
+                                size="small"
+                                value={specificArea}
+                                onChange={(e) => setSpecificArea(e.target.value)}
+                                placeholder="e.g. React, JavaScript"
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                        fontFamily: "'Inter', sans-serif",
+                                        fontSize: '0.85rem',
+                                        '& fieldset': {
+                                            borderColor: '#E7E3F2',
+                                        },
+                                        '&:hover fieldset': {
+                                            borderColor: '#C7BFE0',
+                                        },
+                                        '&.Mui-focused fieldset': {
+                                            borderColor: ORANGE,
+                                            borderWidth: '1px',
+                                        },
+                                    },
+                                }}
+                            />
+                        </Box>
+
                         {/* Difficulty */}
-                        <Box sx={{ flex: { md: 1 }, minWidth: 0, width: { xs: '100%', md: 'auto' } }}>
+                        <Box sx={{ flex: { md: 0.8 }, minWidth: 0, width: { xs: '100%', md: 'auto' } }}>
                             <Typography sx={{ fontFamily: "'Inter', sans-serif", fontWeight: 600, fontSize: '0.8rem', color: '#3D3652', mb: 0.75 }}>
                                 Difficulty Level
                             </Typography>
@@ -201,7 +240,7 @@ export default function InterviewPrep({ setInterviewResult }) {
                         </Box>
 
                         {/* Focus Areas */}
-                        <Box sx={{ flex: { md: 1.2 }, minWidth: 0, width: { xs: '100%', md: 'auto' } }}>
+                        <Box sx={{ flex: { md: 0.9 }, minWidth: 0, width: { xs: '100%', md: 'auto' } }}>
                             <Typography
                                 sx={{
                                     fontFamily: "'Inter', sans-serif",
@@ -236,7 +275,7 @@ export default function InterviewPrep({ setInterviewResult }) {
                                                 size="small"
                                                 sx={{
                                                     p: 0,
-                                                    mr: 0.75,
+                                                    mr: 0.60,
                                                     color: '#C7BFE0',
                                                     '&.Mui-checked': {
                                                         color: ORANGE,
@@ -247,8 +286,8 @@ export default function InterviewPrep({ setInterviewResult }) {
                                         label={label}
                                         sx={{
                                             m: 0,
-                                            px: 2,
-                                            minHeight: 38,
+                                            px: 1,
+                                            minHeight: 35,
                                             display: 'inline-flex',
                                             alignItems: 'center',
                                             borderRadius: '8px',
@@ -257,7 +296,7 @@ export default function InterviewPrep({ setInterviewResult }) {
                                             background: focusAreas[key] ? '#F1EBFC' : '#fff',
                                             '& .MuiFormControlLabel-label': {
                                                 fontFamily: "'Inter', sans-serif",
-                                                fontSize: '0.82rem',
+                                                fontSize: '0.80rem',
                                                 fontWeight: focusAreas[key] ? 600 : 400,
                                                 color: focusAreas[key] ? ORANGE : '#3D3652',
                                                 whiteSpace: 'nowrap',
@@ -268,6 +307,8 @@ export default function InterviewPrep({ setInterviewResult }) {
                             </Stack>
                         </Box>
                     </Stack>
+
+                    
 
                     {/* Row 2: Generate button — own row, content-sized, centered */}
                     <Box sx={{ display: 'flex', justifyContent: { xs: 'stretch', sm: 'center' } }}>
