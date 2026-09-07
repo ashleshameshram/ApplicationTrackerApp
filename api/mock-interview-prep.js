@@ -2,7 +2,6 @@ export function generateMockInterviewQuestions({
     role,
     difficulty,
     focusAreas,
-    numQuestions,
 }) {
     const questions = [];
 
@@ -27,6 +26,26 @@ export function generateMockInterviewQuestions({
             {
                 category: "Technical",
                 question: `How do you make sure your code is maintainable and easy for other developers to understand?`,
+            },
+            {
+                category: "Technical",
+                question: `What programming languages do you regularly use in your work?`
+            },
+            {
+                category: "Technical",
+                question: `What is the difference between lexical scoping and dynamic scoping?`
+            },
+            {
+                category: "Technical",
+                question: `What do you know about n-tier architecture, and what are its core elements?`
+            },
+            {
+                category: "Technical",
+                question: `How would you design a scalable database for a high-traffic web application?`
+            },
+            {
+                category: "Technical",
+                question: `Can you explain Object-Oriented Programming (OOP) in simple terms?`
             }
         );
     }
@@ -52,7 +71,28 @@ export function generateMockInterviewQuestions({
             {
                 category: "Behavioral",
                 question: `Tell me about a time when you had to work under a tight deadline.`,
+            },
+            {
+                category: "Behavioral",
+                question: `Describe a time you worked under a tight deadline or high pressure`,
+            },
+            {
+                category: "Behavioral",
+                question: "Share an instance when you made an error and how you fixed it.",
+            },
+            {
+                category: "Behavioral",
+                question: "Tell me about a time a project failed or fell short of expectations.",
+            },
+            {
+                category: "Behavioral",
+                question:  "What is your biggest weakness?",
+            },
+            {
+                category: "Behavioral",
+                question: "Tell me about a time you failed.",
             }
+            
         );
     }
 
@@ -76,7 +116,27 @@ export function generateMockInterviewQuestions({
             },
             {
                 category: "HR / General",
-                question: `Why do you want to join our company?`,
+                question: `How do you handle workplace conflict?`,
+            },
+            {
+                category: "HR / General",
+                question: `What HR software or systems are you familiar with?`,
+            },
+            {
+                category: "HR / General",
+                question: ` Tell me about a time you had too many tasks and how you prioritized them`,
+            },
+            {
+                category: "HR / General",
+                question: `Where do you see yourself in five years?`,
+            },
+            {
+                category: "HR / General",
+                question: `Why should we hire you?`,
+            },
+            {
+                category: "HR / General",
+                question: `Why do you want to work here?`,
             }
         );
     }
@@ -87,6 +147,6 @@ export function generateMockInterviewQuestions({
     return {
         role,
         difficulty,
-        questions: shuffledQuestions.slice(0, numQuestions),
+        questions: shuffledQuestions,
     };
 }

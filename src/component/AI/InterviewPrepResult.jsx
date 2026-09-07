@@ -80,6 +80,7 @@ function QuestionColumn({ title, questions = [] }) {
 }
 
 export default function InterviewPrepResult({ result }) {
+    console.log(result);
     const questions = result?.questions || [];
 
     const technical = questions
@@ -94,23 +95,46 @@ export default function InterviewPrepResult({ result }) {
 
     const total = technical.length + behavioral.length + hr.length;
 
+    if (!result || total === 0) {
+        return (
+            <Box sx={{
+                width: '93%',
+                m: { xs: 2, sm: 3, md: 3 },
+                p: { xs: 1.75, sm: 2.5 },
+                borderRadius: { xs: 2, sm: 3 },
+                border: '1px solid #E7E3F2',
+                background: '#fff',
+                textAlign: 'center',
+            }}>
+                <Typography sx={{
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: '0.85rem',
+                    color: '#8b8a90',
+                }}>
+                    No questions generated yet — fill in the form above and click Generate Questions.
+                </Typography>
+            </Box>
+        );
+    }
+    
+    const roleLabel = result.role?.trim() ? result.role : "Your Selected";
     return (
-        <Box sx={{
+         <Box sx={{
             width: '94%',
-            m: { xs: 2, sm: 3 , md: 3},
-            p: { xs: 1.75, sm: 2.5},
+            m: { xs: 2, sm: 3, md: 3 },
+            p: { xs: 1.75, sm: 2.5 },
             borderRadius: { xs: 2, sm: 3 },
             border: '1px solid #E7E3F2',
             background: '#fff',
         }}>
             <Typography sx={{
                 fontFamily: "'Sora', sans-serif",
-                fontWeight: 700,
+                fontWeight: 600,
                 fontSize: { xs: '0.95rem', sm: '1.05rem' },
                 color: ORANGE,
                 mb: 2,
             }}>
-                Generated Questions ({total})
+                Generated Questions for the {roleLabel} Role ({total})
             </Typography>
 
             <Stack direction={{ xs: 'column', md: 'row' }} spacing={{ xs: 2.5, md: 3 }}>
