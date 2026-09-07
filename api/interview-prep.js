@@ -1,7 +1,7 @@
 import { generateMockInterviewQuestions } from "./mock-interview-prep.js";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const USE_MOCK_AI = true;
+const USE_MOCK_AI = false;
 const apiKey = process.env.GEMINI_API_KEY;
 const genAI = new GoogleGenerativeAI(apiKey);
 const model = genAI.getGenerativeModel({
@@ -84,9 +84,24 @@ export default async function handler(req,res) {
         const text = response.text();
 
         const cleanText = text.replace(/```json/g, "").replace(/```/g, "").trim();
+
         const interviewPrep = JSON.parse(cleanText);
+        console.log("Gemini Interview Response:", interviewPrep);
+        if( !interviewPrep.role || 
+            !interviewPrep.difficulty || 
+            !Array.isArray(interviewPrep.questions)
+        ) {
+            throw new Error("Invalid interview preparation response");
+        }
+        for(const item of interviewPrep.questions){
+            if(!item.category || !item.question){
+                throw new Error("Invalid interview question format");
+            }
+        }
         return res.status(200).json(interviewPrep);
-    }catch(e){
+
+    }
+    catch(e){
         console.error("Gemini Interview Preparation failed:", e);
         return res.status(500).json({
             message: "Failed to generate interview questions",
