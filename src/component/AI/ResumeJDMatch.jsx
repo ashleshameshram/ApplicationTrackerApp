@@ -44,11 +44,17 @@
                 });
 
                 const data = await response.json();
+                if (!response.ok) {
+                    setInputMessage(
+                        data.message || "Something went wrong while analyzing your match."
+                    );
+                    return;
+                }
                 setAnalysisResult(data);
             }
             catch(error){
                 console.error("Analysis failed:", error);
-                setInputMessage("Something went wrong while analyzing your match.");
+                setInputMessage("Unable to analyze your resume right now. Please try again later.");
             }
             finally {
                 setIsAnalyzing(false);
