@@ -9,9 +9,11 @@
         const [jobDescription, setJobDescription] = useState("");
         const [resumeText,setResumeText] = useState('');
         const [isExtracting, setIsExtracting] = useState(false);
+        const [isAnalyzing, setIsAnalyzing] = useState(false);
         const [inputMessage, setInputMessage] = useState("");
 
         const handleAnalyzeButton = async () => {
+            if (isAnalyzing) return;
             if (!jobDescription.trim() && !resumeText.trim()) {
                 setInputMessage("Add your resume and a job description to analyze your match.");
                 return;
@@ -26,22 +28,31 @@
                 return;
             }
             setInputMessage("");
+            setIsAnalyzing(true);
 
-            const response = await fetch('/api/analyze-match',{
-                method: "POST",
-                headers : {
-                    "Content-Type":"application/json"
-                },
-                //we are sending data through http req,so we need to turn that obj into JSON text
-                body: JSON.stringify({
-                    resumeText,
-                    jobDescription
-                })
-            });
+            try{
+                const response = await fetch('/api/analyze-match',{
+                    method: "POST",
+                    headers : {
+                        "Content-Type":"application/json"
+                    },
+                    //we are sending data through http req,so we need to turn that obj into JSON text
+                    body: JSON.stringify({
+                        resumeText,
+                        jobDescription
+                    })
+                });
 
-            const data = await response.json();
-            setAnalysisResult(data);
-            console.log(data);
+                const data = await response.json();
+                setAnalysisResult(data);
+            }
+            catch(error){
+                console.error("Analysis failed:", error);
+                setInputMessage("Something went wrong while analyzing your match.");
+            }
+            finally {
+                setIsAnalyzing(false);
+            }
         }
         
         return(
@@ -123,7 +134,7 @@
             <Button
                 onClick={handleAnalyzeButton}
                 fullWidth
-                disabled={isExtracting}
+                disabled={isExtracting || isAnalyzing}
                 startIcon={<AutoAwesomeIcon sx={{ fontSize: { xs: 15, sm: 18 } }} />}
                 sx={{
                     fontFamily: "'Sora', sans-serif",
@@ -136,7 +147,12 @@
                     background: '#2f224c',
                     '&:hover': { background: '#150D26' },
                 }}>                  
-                {isExtracting ? "Extracting Resume..." : "Analyze Match"}
+                {isExtracting 
+                    ? "Extracting Resume..." 
+                    : isAnalyzing
+                       ? "Analyzing  Match..."
+                       : "Anaylze Match"
+                }
             </Button>
             </Box>
             </>

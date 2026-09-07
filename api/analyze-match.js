@@ -1,7 +1,7 @@
 import { generateMockAnalysis } from "./mock-analysis.js";
-// import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const USE_MOCK_AI = true;
+const USE_MOCK_AI = false;
 
 export default async function handler(req,res){
     if(req.method !== 'POST') {
@@ -35,32 +35,38 @@ export default async function handler(req,res){
 
     const model = genAI.getGenerativeModel({
         model : "gemini-3.6-flash",
+        generationConfig: {
+            temperature: 0.6,
+            maxOutputTokens: 1500,
+        },
     });
 
-    const prompt = `You are a career-coaching resume analyzer.
+    const prompt = `You are a resume-to-job-description matcher. Return ONLY valid JSON, no markdown, no explanation.
 
-    You will be given a candidate's resume text and a job description.
-    Compare them and return ONLY valid JSON — no markdown code fences,
-    no explanation text before or after — matching exactly this schema:
-
+    Schema:
     {
     "matchScore": number,
     "matchedSkills": string[],
     "missingSkills": string[],
-    "strengths": string,
+    "strengths": string[],
     "improvementSuggestions": string[]
     }
 
-    Base matchScore on overlap of required skills, experience level, and
-    keyword presence between the resume and job description.
+    Rules:
+    - matchScore: 0-100, based on required skills, experience level, and keyword overlap.
+    - Do not invent skills, companies, or experience not present in the resume.
+    - When the JD lists alternatives with "or" (e.g. "React, Next.js, or Angular"), satisfying ONE alternative counts as matched — do not list the others as missing.
+    - If the resume satisfies none of an "or" group (e.g. "Sass or Tailwind"), list it as ONE missing skill, not separate ones.
+    - matchedSkills: max 8. missingSkills: max 6.
+    - strengths: 2-3 short bullets, each under 12 words.
+    - improvementSuggestions: 2-3 short, actionable bullets, each under 15 words.
 
-    Do not invent skills, companies, or years of experience that aren't
-    actually present in the resume text. Only work with what's given.
+    RESUME:
+    ${resumeText}
 
-    RESUME:${resumeText}
-    JOB DESCRIPTION:${jobDescription}
-
-    Analyze the match and return the JSON as specified above.`;
+    JOB DESCRIPTION:
+    ${jobDescription}
+    `;
 
     try{
         const result = await model.generateContent(prompt);
@@ -75,8 +81,14 @@ export default async function handler(req,res){
     }catch(err) {
         console.error("Gemini analysis failed:", err);
 
+        if (err.status === 429) {
+            return res.status(429).json({
+                message: "AI analysis is temporarily unavailable because the Gemini usage limit has been reached. Please try again later.",
+            });
+        }
+
         return res.status(500).json({
-            error: err.message
+            message: "Failed to analyze resume and job description",
         }); 
     }
 }
