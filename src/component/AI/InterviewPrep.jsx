@@ -68,6 +68,7 @@ export default function InterviewPrep({ setInterviewResult }) {
                 },
                 body: JSON.stringify({
                     role,
+                    specificArea,
                     difficulty,
                     focusAreas
                 }),

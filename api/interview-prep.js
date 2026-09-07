@@ -13,16 +13,19 @@ const model = genAI.getGenerativeModel({
 });
 const QUESTIONS_PER_CATEGORY = 5;
 
-function buildPrompt(role, difficulty, category) {
+function buildPrompt(role, specificArea, difficulty, category) {
     return (
     `You are an expert technical interviewer and career coach.
     Generate exactly ${QUESTIONS_PER_CATEGORY} ${category} interview questions for this candidate:
 
     Role: ${role}
+    Specific Skills / Technology: ${specificArea || "General role-based questions"}
     Difficulty: ${difficulty}
 
     Rules:
     - Questions must be specific to the role and match the difficulty level.
+    - For Technical questions, if a Specific Skill / Technology is provided, focus ALL questions specifically on that skill.
+    - For Behavioral and HR / General questions, focus on the candidate's role and interview readiness rather than the specific technology.
     - Avoid duplicate or nearly identical questions.
     - Return ONLY valid JSON, no markdown fences, no explanation text.
 
@@ -33,8 +36,8 @@ function buildPrompt(role, difficulty, category) {
         ]
     }`);
 }
-async function generateCategoryQuestions(role,difficulty,category){
-    const prompt = buildPrompt(role,difficulty,category);
+async function generateCategoryQuestions(role, specificArea, difficulty, category){
+    const prompt = buildPrompt(role, specificArea, difficulty, category);
     const result = await model.generateContent(prompt);
     const text = result.response.text();
     const cleanText = text.replace(/```json/g, "").replace(/```/g, "").trim();
@@ -58,7 +61,7 @@ export default async function handler(req,res) {
         });
     }
 
-    const { role, difficulty, focusAreas } = req.body;
+    const { role, specificArea, difficulty, focusAreas } = req.body;
 
     if(!role || !difficulty || !focusAreas) {
         return res.status(400).json({
@@ -70,6 +73,7 @@ export default async function handler(req,res) {
         return res.status(200).json(
             generateMockInterviewQuestions({
                 role,
+                specificArea,
                 difficulty,
                 focusAreas
             })
@@ -95,14 +99,16 @@ export default async function handler(req,res) {
 
     try {
         const results = await Promise.all(
-            selectedCategories.map((category) => generateCategoryQuestions(role, difficulty, category))
-        );
-
+            selectedCategories.map((category) => 
+                generateCategoryQuestions(role, specificArea, difficulty, category)
+        ));
         const questions = results.flat();
 
-        return res.status(200).json({ role, difficulty, questions });
+        return res.status(200).json({ role,specificArea,difficulty, questions });
     } catch (e) {
+
         console.error("Gemini Interview Preparation failed:", e);
+
         return res.status(500).json({
             message: "Failed to generate interview questions",
             error: e.message,

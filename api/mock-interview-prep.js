@@ -1,5 +1,6 @@
 export function generateMockInterviewQuestions({
     role,
+    specificArea,
     difficulty,
     focusAreas,
 }) {
@@ -26,22 +27,6 @@ export function generateMockInterviewQuestions({
             {
                 category: "Technical",
                 question: `How do you make sure your code is maintainable and easy for other developers to understand?`,
-            },
-            {
-                category: "Technical",
-                question: `What programming languages do you regularly use in your work?`
-            },
-            {
-                category: "Technical",
-                question: `What is the difference between lexical scoping and dynamic scoping?`
-            },
-            {
-                category: "Technical",
-                question: `What do you know about n-tier architecture, and what are its core elements?`
-            },
-            {
-                category: "Technical",
-                question: `How would you design a scalable database for a high-traffic web application?`
             },
             {
                 category: "Technical",
@@ -76,44 +61,11 @@ export function generateMockInterviewQuestions({
                 category: "Behavioral",
                 question: `Describe a time you worked under a tight deadline or high pressure`,
             },
-            {
-                category: "Behavioral",
-                question: "Share an instance when you made an error and how you fixed it.",
-            },
-            {
-                category: "Behavioral",
-                question: "Tell me about a time a project failed or fell short of expectations.",
-            },
-            {
-                category: "Behavioral",
-                question:  "What is your biggest weakness?",
-            },
-            {
-                category: "Behavioral",
-                question: "Tell me about a time you failed.",
-            }
-            
         );
     }
 
     if (focusAreas.hr) {
         questions.push(
-            {
-                category: "HR / General",
-                question: `Why are you interested in working as a ${role}?`,
-            },
-            {
-                category: "HR / General",
-                question: `Why should we hire you for this ${role}?`,
-            },
-            {
-                category: "HR / General",
-                question: `Where do you see yourself growing in this career?`,
-            },
-            {
-                category: "HR / General",
-                question: `What are your strengths and weaknesses?`,
-            },
             {
                 category: "HR / General",
                 question: `How do you handle workplace conflict?`,
@@ -146,6 +98,7 @@ export function generateMockInterviewQuestions({
 
     return {
         role,
+        specificArea,
         difficulty,
         questions: shuffledQuestions,
     };
