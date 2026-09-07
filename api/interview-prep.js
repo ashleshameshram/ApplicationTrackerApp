@@ -8,10 +8,10 @@ const model = genAI.getGenerativeModel({
     model : "gemini-3.6-flash",
     generationConfig: {
         temperature: 0.6,
-        maxOutputTokens: 800,
+        maxOutputTokens: 1500,
     },
 });
-const QUESTIONS_PER_CATEGORY = 5;
+const QUESTIONS_PER_CATEGORY = 7;
 
 function buildPrompt(role, specificArea, difficulty, category) {
     return (
@@ -106,12 +106,16 @@ export default async function handler(req,res) {
 
         return res.status(200).json({ role,specificArea,difficulty, questions });
     } catch (e) {
-
         console.error("Gemini Interview Preparation failed:", e);
+
+        if (e.status === 429) {
+            return res.status(429).json({
+                message: "AI generation is temporarily unavailable because the Gemini usage limit has been reached. Please try again later.",
+            });
+        }
 
         return res.status(500).json({
             message: "Failed to generate interview questions",
-            error: e.message,
         });
     }
 }

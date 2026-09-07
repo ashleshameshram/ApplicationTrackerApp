@@ -38,6 +38,7 @@ function Pill({ label, selected, onClick }) {
 }
 
 export default function InterviewPrep({ setInterviewResult }) {
+    const [errorMessage, setErrorMessage] = useState('');
     const [isGenerating, setIsGenerating] = useState(false);
     const [role, setRole] = useState('Frontend Developer');
     const [specificArea, setSpecificArea] = useState('');
@@ -56,9 +57,11 @@ export default function InterviewPrep({ setInterviewResult }) {
         const hasFocusArea = Object.values(focusAreas).some(Boolean);
 
         if (!hasFocusArea) {
+            setErrorMessage('Please select at least one focus area.');
             return;
         }
         setIsGenerating(true);
+        setErrorMessage('');
         
         try{
             const response = await fetch('/api/interview-prep',{
@@ -74,13 +77,24 @@ export default function InterviewPrep({ setInterviewResult }) {
                 }),
             });
             if(!response.ok){
-                throw new Error("Failed to generate interview questions");
+                let errorMessage = "Unable to generate interview questions. Please try again.";
+                
+                try{
+                    const errorData = await response.json();
+                    if (errorData.message) {
+                        errorMessage = errorData.message;
+                    }
+                } catch {
+                    //Server returned a non-JSON response
+                }
+                throw new Error(errorMessage);
             }
             const data = await response.json();
             setInterviewResult(data);
         }
         catch(error){
             console.error("Interview prep failed:", error);
+            setErrorMessage(error.message);
         }
         finally{
             setIsGenerating(false);
@@ -336,6 +350,16 @@ export default function InterviewPrep({ setInterviewResult }) {
                         </Button>
                     </Box>
                 </Stack>
+                {errorMessage && (
+                    <Typography
+                    sx={{
+                        mt: 2,
+                        color: '#D32F2F',
+                        fontSize: '0.85rem',
+                    }}>
+                        {errorMessage}
+                    </Typography>
+                )}
             </Box>
         </Box>
     );
