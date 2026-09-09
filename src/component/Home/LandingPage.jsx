@@ -1,7 +1,9 @@
 import { Box, Typography, Button, Stack } from '@mui/material';
 import { keyframes } from '@emotion/react';
+import { useNavigate } from 'react-router-dom';
 
 export default function LandingPage() {
+    const navigate = useNavigate();
     const drift = keyframes`
         0%   { background-position: 0% 50%; }
         50%  { background-position: 100% 50%; }
@@ -77,8 +79,10 @@ export default function LandingPage() {
       </Typography>
 
       {/* CTAs */}
-      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 1.5, sm: 2 }} sx={{ width: { xs: '100%', sm: 'auto' } }}>
+      <Stack direction={{ xs: 'column', sm: 'row' }} 
+      spacing={{ xs: 1.5, sm: 2 }} sx={{ width: { xs: '100%', sm: 'auto' } }}>
         <Button
+          onClick={() => navigate('/myapplications')}
           sx={{
             fontFamily: "'Sora', sans-serif",
             fontWeight: 600,
@@ -96,6 +100,7 @@ export default function LandingPage() {
           Add your first application
         </Button>
         <Button
+          onClick={() => navigate('/ai-assistant')}
           sx={{
             fontFamily: "'Sora', sans-serif",
             fontWeight: 600,
