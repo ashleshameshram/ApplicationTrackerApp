@@ -25,6 +25,14 @@ So along with tracking, ApplyIQ does two extra things:
 - pdfjs-dist for reading resume PDFs in the browser
 - Deployed on Vercel
 
+## 📸 Preview
+
+### Home Page
+
+<p align="center">
+  <img src="./public/HOME.png" alt="ApplyIQ Home Page" width="900"/>
+</p>
+
 ## About me
 
 Made by Ashlesha Meshram — learning frontend development, building this as a portfolio project.
