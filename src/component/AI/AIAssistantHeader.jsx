@@ -5,44 +5,50 @@ export default function AIAssistantHeader() {
   return (
     <Stack
       direction="row"
-      spacing={2}
+      spacing={{ xs: 1.25, sm: 1.5, md: 2 }}
       sx={{
         width: '100%',
-        px: { xs: 2, sm: 3 },
-        py: { xs: 1.5, sm: 2 },
-        mt: { xs: 2, sm: 2, md: 8 },
-        my: { xs: 1, sm: 2 },
-        borderRadius: 2,
+        minWidth: 0,
+        mt: 8,
+        alignItems: 'center',
       }}
     >
+      {/* Icon */}
+      <Box sx={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexShrink: 0,
+      }}>
+        <TipsAndUpdatesOutlinedIcon sx={{
+          fontSize: { xs: 20, sm: 26, md: 32 },
+          color: '#30003a',
+        }} />
+      </Box>
 
-      {/* Title + subtitle */}
-      <Box sx={{ flex: 1, minWidth: 0 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <TipsAndUpdatesOutlinedIcon sx={{
-            fontSize: { xs: 18, sm: 22, md: 30 },
-            color: '#30003a'
-          }} />
-          <Typography
-            sx={{
-              fontFamily: "'Sora', sans-serif",
-              fontWeight: 700,
-              color: '#120038',
-              lineHeight: 1.4,
-              display: { xs: 'none', sm: 'block', md: 'flex' },
-              fontSize: { xs: 18, sm: 22, md: 25 },
-            }}>
-            AI Assistant
-          </Typography>
-        </Box>
+      {/* Title + subtitle stacked */}
+      <Box sx={{ minWidth: 0, flex: 1 }}>
+        <Typography
+          sx={{
+            fontFamily: "'Sora', sans-serif",
+            fontWeight: 700,
+            color: '#120038',
+            lineHeight: 1.4,
+            fontSize: { xs: '1rem', sm: '1.15rem', md: '1.4rem' },
+          }}>
+          AI Assistant
+        </Typography>
         <Typography
           sx={{
             fontFamily: "'Inter', sans-serif",
-            fontSize: { xs: '0.8rem', sm: '0.88rem' },
+            fontSize: { xs: '0.72rem', sm: '0.8rem', md: '0.88rem' },
             color: '#6B6478',
-            whiteSpace: { xs: 'normal', sm: 'nowrap' },
+            whiteSpace: 'normal',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
+            display: '-webkit-box',
+            WebkitLineClamp: { xs: 2, sm: 1 },
+            WebkitBoxOrient: 'vertical',
           }}>
           Smart AI tools to help you apply better and prepare smarter.
         </Typography>

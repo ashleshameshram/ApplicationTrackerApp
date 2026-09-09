@@ -11,8 +11,8 @@ function Pill({ label, selected, onClick }) {
             onClick={onClick}
             sx={{
                 cursor: 'pointer',
-                px: 1,
-                minHeight: 35,
+                px: { xs: 0.8, sm: 1 },
+                minHeight: { xs: 30, sm: 35 },
                 display: 'inline-flex',
                 alignItems: 'center',
                 borderRadius: '8px',
@@ -20,7 +20,7 @@ function Pill({ label, selected, onClick }) {
                 borderColor: selected ? ORANGE : '#E7E3F2',
                 background: selected ? '#F1EBFC' : '#fff',
                 fontFamily: "'Inter', sans-serif",
-                fontSize: '0.80rem',
+                fontSize: { xs: '0.7rem', sm: '0.80rem' },
                 fontWeight: selected ? 600 : 400,
                 color: selected ? ORANGE : '#3D3652',
                 textAlign: 'center',
@@ -105,8 +105,7 @@ export default function InterviewPrep({ setInterviewResult }) {
 
     return (
         <Box sx={{
-            width: '95%',
-            m: { xs: 2, sm: 3, md: 3 },
+            width: '98%',
             borderRadius: { xs: 2, sm: 3 },
             border: '1px solid #E7E3F2',
             background: '#fff',
@@ -140,14 +139,14 @@ export default function InterviewPrep({ setInterviewResult }) {
                         <Typography sx={{
                             fontFamily: "'Sora', sans-serif",
                             fontWeight: 700,
-                            fontSize: { xs: '1rem', sm: '1.1rem' },
+                            fontSize: { xs: '0.9rem', sm: '1.1rem' },
                             color: ORANGE,
                         }}>
                             Interview Preparation
                         </Typography>
                         <Typography sx={{
                             fontFamily: "'Inter', sans-serif",
-                            fontSize: '0.8rem',
+                            fontSize: { xs: '0.7rem', sm: '0.8rem' },
                             color: '#6B6478',
                             mt: 0.25,
                         }}>
@@ -168,7 +167,7 @@ export default function InterviewPrep({ setInterviewResult }) {
                     >
                         {/* Domain / Role */}
                         <Box sx={{ flex: { md: 0.7 }, minWidth: 0, width: { xs: '100%', md: 'auto' } }}>
-                            <Typography sx={{ fontFamily: "'Inter', sans-serif", fontWeight: 600, fontSize: '0.8rem', color: '#3D3652', mb: 0.75 }}>
+                            <Typography sx={{ fontFamily: "'Inter', sans-serif", fontWeight: 600, fontSize: { xs: '0.72rem', sm: '0.8rem' }, color: '#3D3652', mb: 0.75 }}>
                                 Domain / Role
                             </Typography>
                             <Autocomplete
@@ -184,7 +183,7 @@ export default function InterviewPrep({ setInterviewResult }) {
                                         sx={{
                                             '& .MuiOutlinedInput-root': {
                                                 fontFamily: "'Inter', sans-serif",
-                                                fontSize: '0.85rem',
+                                                fontSize: { xs: '0.76rem', sm: '0.85rem' },
                                                 '& fieldset': { borderColor: '#E7E3F2' },
                                                 '&:hover fieldset': { borderColor: '#C7BFE0' },
                                                 '&.Mui-focused fieldset': { borderColor: ORANGE, borderWidth: '1px' },
@@ -201,7 +200,7 @@ export default function InterviewPrep({ setInterviewResult }) {
                                 sx={{
                                     fontFamily: "'Inter', sans-serif",
                                     fontWeight: 600,
-                                    fontSize: '0.8rem',
+                                    fontSize: { xs: '0.72rem', sm: '0.8rem' },
                                     color: '#3D3652',
                                     mb: 0.75,
                                 }}
@@ -218,7 +217,7 @@ export default function InterviewPrep({ setInterviewResult }) {
                                 sx={{
                                     '& .MuiOutlinedInput-root': {
                                         fontFamily: "'Inter', sans-serif",
-                                        fontSize: '0.85rem',
+                                        fontSize: { xs: '0.76rem', sm: '0.85rem' },
                                         '& fieldset': {
                                             borderColor: '#E7E3F2',
                                         },
@@ -236,7 +235,7 @@ export default function InterviewPrep({ setInterviewResult }) {
 
                         {/* Difficulty */}
                         <Box sx={{ flex: { md: 0.8 }, minWidth: 0, width: { xs: '100%', md: 'auto' } }}>
-                            <Typography sx={{ fontFamily: "'Inter', sans-serif", fontWeight: 600, fontSize: '0.8rem', color: '#3D3652', mb: 0.75 }}>
+                            <Typography sx={{ fontFamily: "'Inter', sans-serif", fontWeight: 600, fontSize: { xs: '0.72rem', sm: '0.8rem' }, color: '#3D3652', mb: 0.75 }}>
                                 Difficulty Level
                             </Typography>
                             <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
@@ -260,7 +259,7 @@ export default function InterviewPrep({ setInterviewResult }) {
                                 sx={{
                                     fontFamily: "'Inter', sans-serif",
                                     fontWeight: 600,
-                                    fontSize: '0.8rem',
+                                    fontSize: { xs: '0.72rem', sm: '0.8rem' },
                                     color: '#3D3652',
                                     mb: 0.75,
                                 }}>
@@ -290,7 +289,7 @@ export default function InterviewPrep({ setInterviewResult }) {
                                                 size="small"
                                                 sx={{
                                                     p: 0,
-                                                    mr: 0.60,
+                                                    mr: { xs: 0.35, sm: 0.60 },
                                                     color: '#C7BFE0',
                                                     '&.Mui-checked': {
                                                         color: ORANGE,
@@ -301,17 +300,18 @@ export default function InterviewPrep({ setInterviewResult }) {
                                         label={label}
                                         sx={{
                                             m: 0,
-                                            px: 1,
-                                            minHeight: 35,
+                                            px: { xs: 0.55, sm: 1 },
+                                            minHeight: { xs: 26, sm: 35 },
                                             display: 'inline-flex',
                                             alignItems: 'center',
-                                            borderRadius: '8px',
+                                            borderRadius: { xs: '6px', sm: '8px' },
                                             border: '1px solid',
                                             borderColor: focusAreas[key] ? ORANGE : '#E7E3F2',
                                             background: focusAreas[key] ? '#F1EBFC' : '#fff',
+
                                             '& .MuiFormControlLabel-label': {
                                                 fontFamily: "'Inter', sans-serif",
-                                                fontSize: '0.80rem',
+                                                fontSize: { xs: '0.62rem', sm: '0.80rem' },
                                                 fontWeight: focusAreas[key] ? 600 : 400,
                                                 color: focusAreas[key] ? ORANGE : '#3D3652',
                                                 whiteSpace: 'nowrap',
@@ -330,23 +330,45 @@ export default function InterviewPrep({ setInterviewResult }) {
                         <Button
                             disabled={isGenerating}
                             onClick={handleGenerate}
-                            startIcon={<AutoAwesomeIcon sx={{ fontSize: 16 }} />}
+                            startIcon={<AutoAwesomeIcon sx={{ fontSize: { xs: 14, sm: 16 } }} />}
                             sx={{
                                 textTransform: 'none',
                                 fontFamily: "'Sora', sans-serif",
                                 fontWeight: 600,
-                                fontSize: '0.85rem',
+                                fontSize: { xs: '0.76rem', sm: '0.85rem' },
                                 color: '#fff',
                                 background: ORANGE,
                                 borderRadius: '8px',
                                 px: 3,
-                                py: 1.1,
+                                py: { xs: 0.85, sm: 1.1 },
                                 width: { xs: '100%', sm: 'auto' },
                                 whiteSpace: 'nowrap',
                                 '&:hover': { background: '#E0670F' },
+                                '&.Mui-disabled': {
+                                    color: '#fff',
+                                    background: '#e0660fe1',
+                                },
+                                ...(isGenerating) && {
+                                    '&::after': {
+                                        content: '""',
+                                        position: 'absolute',
+                                        top: 0,
+                                        left: '-150%',
+                                        width: '150%',
+                                        height: '100%',
+                                        background: 'linear-gradient(115deg, transparent 20%, rgba(255, 250, 250, 0.74) 50%, transparent 80%)',
+                                        animation: 'shimmerSweep 2s ease-in-out infinite',
+                                    },
+                                    '@keyframes shimmerSweep': {
+                                        '0%': { left: '-150%' },
+                                        '100%': { left: '150%' },
+                                    },
+                                },
                             }}
                         >
-                            {isGenerating ? 'Generating Questions...' : 'Generate Questions'}
+                            {isGenerating 
+                            ? 'Generating your Questions...' 
+                            : 'Generate Questions'}
                         </Button>
                     </Box>
                 </Stack>
@@ -355,7 +377,7 @@ export default function InterviewPrep({ setInterviewResult }) {
                     sx={{
                         mt: 2,
                         color: '#D32F2F',
-                        fontSize: '0.85rem',
+                        fontSize: { xs: '0.76rem', sm: '0.85rem' },
                     }}>
                         {errorMessage}
                     </Typography>

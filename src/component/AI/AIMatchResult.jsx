@@ -7,12 +7,12 @@ import TipsAndUpdatesOutlinedIcon from '@mui/icons-material/TipsAndUpdatesOutlin
 function SkillChip({ label, color, bg }) {
     return (
         <Box sx={{
-            px: 1.4,
-            py: 0.5,
+            px: { xs: 1.1, sm: 1.4 },
+            py: { xs: 0.4, sm: 0.5 },
             borderRadius: '999px',
             background: bg,
             fontFamily: "'Inter', sans-serif",
-            fontSize: '0.78rem',
+            fontSize: { xs: '0.7rem', sm: '0.78rem' },
             fontWeight: 500,
             color: color,
             whiteSpace: 'nowrap',
@@ -24,13 +24,13 @@ function SkillChip({ label, color, bg }) {
 
 function SkillGroup({ icon, title, skills = [], chipColor, chipBg }) {
     return (
-        <Box>
+        <Box sx={{ minWidth: 0 }}>
             <Stack direction="row" spacing={0.75} alignItems="center" sx={{ mb: 1 }}>
                 {icon}
                 <Typography sx={{
                     fontFamily: "'Sora', sans-serif",
                     fontWeight: 700,
-                    fontSize: '0.9rem',
+                    fontSize: { xs: '0.8rem', sm: '0.9rem' },
                     color: '#120038',
                 }}>
                     {title}
@@ -42,7 +42,7 @@ function SkillGroup({ icon, title, skills = [], chipColor, chipBg }) {
                         <SkillChip key={i} label={skill} color={chipColor} bg={chipBg} />
                     ))
                 ) : (
-                    <Typography sx={{ fontFamily: "'Inter', sans-serif", fontSize: '0.8rem', color: '#9B96A8' }}>
+                    <Typography sx={{ fontFamily: "'Inter', sans-serif", fontSize: { xs: '0.72rem', sm: '0.8rem' }, color: '#9B96A8' }}>
                         None found
                     </Typography>
                 )}
@@ -59,7 +59,7 @@ function InsightPanel({ icon, title, titleColor, items = [], emptyText }) {
                 <Typography sx={{
                     fontFamily: "'Sora', sans-serif",
                     fontWeight: 700,
-                    fontSize: '0.88rem',
+                    fontSize: { xs: '0.78rem', sm: '0.88rem' },
                     color: titleColor,
                 }}>
                     {title}
@@ -70,7 +70,7 @@ function InsightPanel({ icon, title, titleColor, items = [], emptyText }) {
                     {items.map((item, i) => (
                         <Typography key={i} sx={{
                             fontFamily: "'Inter', sans-serif",
-                            fontSize: '0.83rem',
+                            fontSize: { xs: '0.74rem', sm: '0.83rem' },
                             color: '#3D3652',
                             lineHeight: 1.5,
                         }}>
@@ -79,7 +79,7 @@ function InsightPanel({ icon, title, titleColor, items = [], emptyText }) {
                     ))}
                 </Stack>
             ) : (
-                <Typography sx={{ fontFamily: "'Inter', sans-serif", fontSize: '0.8rem', color: '#9B96A8' }}>
+                <Typography sx={{ fontFamily: "'Inter', sans-serif", fontSize: { xs: '0.72rem', sm: '0.8rem' }, color: '#9B96A8' }}>
                     {emptyText}
                 </Typography>
             )}
@@ -100,12 +100,13 @@ export default function AIMatchResult({ analysisResult }) {
 
     return (
         <Box sx={{
-            width: '100%',
+            width: '90%',
+            minWidth: 0,
             height: '100%',
             display: 'flex',
             flexDirection: 'column',
-            p: { xs: 1.75, sm: 2.5 },
-            borderRadius: { xs: 2, sm: 3 },
+            p: { xs: 1.5, sm: 2, md: 2.5 },
+            borderRadius: { xs: 2, sm: 2.5, md: 3 },
             border: '1px solid #E7E3F2',
             background: '#fff',
         }}>
@@ -113,15 +114,15 @@ export default function AIMatchResult({ analysisResult }) {
             <Typography sx={{
                 fontFamily: "'Sora', sans-serif",
                 fontWeight: 700,
-                fontSize: { xs: '1rem', sm: '1.1rem' },
+                fontSize: { xs: '0.9rem', sm: '1rem', md: '1.1rem' },
                 color: '#120038',
-                mb: 2.5,
+                mb: { xs: 1.75, sm: 2.25, md: 2.5 },
             }}>
                 Match Result
             </Typography>
 
             {/* Left column: score ring | Right column: 2 rows */}
-            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 4 }} sx={{ flex: 1 }}>
+            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 2.5, sm: 3, md: 4 }} sx={{ flex: 1, minWidth: 0 }}>
 
                 {/* Left column — score ring, spans full height */}
                 <Box sx={{
@@ -133,8 +134,8 @@ export default function AIMatchResult({ analysisResult }) {
                 }}>
                     <Box sx={{
                         position: 'relative',
-                        width: 140,
-                        height: 140,
+                        width: { xs: 110, sm: 125, md: 140 },
+                        height: { xs: 110, sm: 125, md: 140 },
                         borderRadius: '50%',
                         background: `conic-gradient(from 0deg, #6D28D9 ${score * 3.6}deg, #EFE9FE ${score * 3.6}deg 360deg)`,
                         display: 'flex',
@@ -142,8 +143,8 @@ export default function AIMatchResult({ analysisResult }) {
                         justifyContent: 'center',
                     }}>
                         <Box sx={{
-                            width: 115,
-                            height: 115,
+                            width: { xs: 90, sm: 102, md: 115 },
+                            height: { xs: 90, sm: 102, md: 115 },
                             borderRadius: '50%',
                             background: '#fff',
                             display: 'flex',
@@ -153,7 +154,7 @@ export default function AIMatchResult({ analysisResult }) {
                         }}>
                             <Typography sx={{
                                 fontFamily: "'Sora', sans-serif",
-                                fontSize: '1.9rem',
+                                fontSize: { xs: '1.4rem', sm: '1.65rem', md: '1.9rem' },
                                 fontWeight: 700,
                                 color: '#120038',
                                 lineHeight: 1,
@@ -162,7 +163,7 @@ export default function AIMatchResult({ analysisResult }) {
                             </Typography>
                             <Typography sx={{
                                 fontFamily: "'Inter', sans-serif",
-                                fontSize: '0.78rem',
+                                fontSize: { xs: '0.68rem', sm: '0.73rem', md: '0.78rem' },
                                 fontWeight: 600,
                                 color: '#1D9E75',
                                 mt: 0.5,
@@ -174,16 +175,16 @@ export default function AIMatchResult({ analysisResult }) {
                 </Box>
 
                 {/* Right column — 2x2 grid */}
-                <Stack spacing={2.5} sx={{ flex: 1, minWidth: 0, width: '100%' }}>
+                <Stack spacing={{ xs: 2, sm: 2.25, md: 2.5 }} sx={{ flex: 1, minWidth: 0, width: '100%' }}>
                     {/* Row 1: Matched + Missing */}
-                    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 2.5, sm: 4 }}>
+                    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 2, sm: 3, md: 4 }}>
                         <Box sx={{ flex: 1, minWidth: 0 }}>
                             <SkillGroup
                                 title="Matched Skills"
                                 skills={matchedSkills}
                                 chipColor="#1D9E75"
                                 chipBg="#E9F7F1"
-                                icon={<CheckCircleOutlinedIcon sx={{ fontSize: 18, color: '#1D9E75' }} />}
+                                icon={<CheckCircleOutlinedIcon sx={{ fontSize: { xs: 15, sm: 18 }, color: '#1D9E75' }} />}
                             />
                         </Box>
                         <Box sx={{ flex: 1, minWidth: 0 }}>
@@ -192,17 +193,17 @@ export default function AIMatchResult({ analysisResult }) {
                                 skills={missingSkills}
                                 chipColor="#D9480F"
                                 chipBg="#FDEEE9"
-                                icon={<ErrorOutlineOutlinedIcon sx={{ fontSize: 18, color: '#D9480F' }} />}
+                                icon={<ErrorOutlineOutlinedIcon sx={{ fontSize: { xs: 15, sm: 18 }, color: '#D9480F' }} />}
                             />
                         </Box>
                     </Stack>
 
                     {/* Row 2: Strengths + AI Suggestions */}
-                    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ mt: 'auto' }}>
+                    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 1.5, sm: 2 }} sx={{ mt: 'auto' }}>
                         <Box sx={{
                             flex: 1,
                             minWidth: 0,
-                            p: { xs: 1.75, sm: 2 },
+                            p: { xs: 1.25, sm: 1.75, md: 2 },
                             borderRadius: 2,
                             border: '1px solid #E7E3F2',
                             background: '#FBFBFD',
@@ -212,13 +213,13 @@ export default function AIMatchResult({ analysisResult }) {
                                 titleColor="#6D28D9"
                                 items={Array.isArray(strengths) ? strengths : (strengths ? [strengths] : [])}
                                 emptyText="No strengths identified yet"
-                                icon={<StarOutlinedIcon sx={{ fontSize: 18, color: '#6D28D9' }} />}
+                                icon={<StarOutlinedIcon sx={{ fontSize: { xs: 15, sm: 18 }, color: '#6D28D9' }} />}
                             />
                         </Box>
                         <Box sx={{
                             flex: 1,
                             minWidth: 0,
-                            p: { xs: 1.75, sm: 2 },
+                            p: { xs: 1.25, sm: 1.75, md: 2 },
                             borderRadius: 2,
                             border: '1px solid #E7E3F2',
                             background: '#FBFBFD',
@@ -228,7 +229,7 @@ export default function AIMatchResult({ analysisResult }) {
                                 titleColor="#378ADD"
                                 items={suggestions}
                                 emptyText="No suggestions available"
-                                icon={<TipsAndUpdatesOutlinedIcon sx={{ fontSize: 18, color: '#378ADD' }} />}
+                                icon={<TipsAndUpdatesOutlinedIcon sx={{ fontSize: { xs: 15, sm: 18 }, color: '#378ADD' }} />}
                             />
                         </Box>
                     </Stack>

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import * as pdfjsLib from "pdfjs-dist";
 
-import {Box, Typography, Button, Stack,} from '@mui/material';
+import { Box, Typography, Button, Stack } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
@@ -24,119 +24,114 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
-export default function ResumeUpload( { setResumeText, setIsExtracting ,setInputMessage }) {
-    const [resumeFile,setResumeFile] = useState(null);
+export default function ResumeUpload({ setResumeText, setIsExtracting, setInputMessage }) {
+    const [resumeFile, setResumeFile] = useState(null);
 
     let handleResumeUpload = async (e) => {
         const file = e.target.files[0];
-
-        if(!file) return;
+        if (!file) return;
         setResumeFile(file);
         setIsExtracting(true);
 
-        try{
+        try {
             const arrayBuffer = await file.arrayBuffer();
-            
-            const pdf = await pdfjsLib.getDocument({
-                data: arrayBuffer,
-            }).promise;
-
+            const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
             let extractedText = "";
 
-            for(let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++){
+            for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
                 const page = await pdf.getPage(pageNumber);
                 const textContent = await page.getTextContent();
-                const pageText = textContent.items
-                    .map((item) => item.str).join(' ');
+                const pageText = textContent.items.map((item) => item.str).join(' ');
                 extractedText += pageText + '\n';
             }
             setResumeText(extractedText.trim());
             setInputMessage("");
-        }catch(e){
+        } catch (e) {
             console.error("Resume extraction failed:", e);
-        }finally {
+        } finally {
             setIsExtracting(false);
         }
     }
 
-    return(
-        <>
-        {/* Resume row */}
+    return (
         <Stack
             direction="row"
             alignItems="center"
-            spacing={{ xs: 0.8, sm: 1.2 }}
+            spacing={{ xs: 0.7, sm: 1, md: 1.2 }}
             sx={{
+                minWidth: 0,
                 border: '1px solid #E7E3F2',
-                borderRadius: { xs: 1.75, sm: 2.5 },
-                p: { xs: 1, sm: 1.5 },
-                mb: { xs: 1.75, sm: 2.5 },
+                borderRadius: { xs: 1.5, sm: 2, md: 2.5 },
+                p: { xs: 0.85, sm: 1.25, md: 1.5 },
+                mb: { xs: 1.5, sm: 2, md: 2.5 },
                 flexWrap: 'wrap',
-        }}>
-
-        <DescriptionOutlinedIcon sx={{ fontSize: { xs: 15, sm: 18 }, color: '#6D28D9', flexShrink: 0 }} />
-        <Typography
-            sx={{
-            fontFamily: "'Sora', sans-serif",
-            fontWeight: 600,
-            fontSize: { xs: '0.72rem', sm: '0.85rem' },
-            color: '#1F1436',
-        }}> Resume
-        </Typography>
-
-        <Button
-            component="label"
-            role={undefined}
-            variant="contained"
-            tabIndex={-1}
-            size="small"
-            startIcon={<CloudUploadIcon sx={{ fontSize: { xs: 14, sm: 16 } }} />}
-            sx={{
-            fontFamily: "'Inter', sans-serif",
-            fontWeight: 600,
-            textTransform: 'none',
-            fontSize: { xs: '0.68rem', sm: '0.76rem' },
-            px: { xs: 1.2, sm: 1.6 },
-            py: { xs: 0.4, sm: 0.55 },
-            borderRadius: '8px',
-            ml: { xs: 1, sm: 2 },
-            background: '#1F1436',
-            boxShadow: 'none',
-            '&:hover': { background: '#150D26', boxShadow: 'none' },
-        }}>Upload file
-
-        <VisuallyHiddenInput
-            type="file"
-            accept=".pdf"
-            onChange={handleResumeUpload}
-        />
-        </Button>
-
-        {resumeFile && (
-            <Box sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 0.8,
             }}>
-            <CheckCircleOutlineOutlinedIcon sx={{ fontSize: { xs: 16, sm: 18 }, color: '#1E8E5A', flexShrink: 0 }} />
+
+            <DescriptionOutlinedIcon sx={{ fontSize: { xs: 14, sm: 16, md: 18 }, color: '#6D28D9', flexShrink: 0 }} />
             <Typography
                 sx={{
-                fontFamily: "'Inter', sans-serif",
-                fontWeight: 600,
-                fontSize: { xs: '0.72rem', sm: '0.82rem' },
-                color: '#166945',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap',
-                minWidth: 0,
-            }}>
-                {resumeFile.name}
+                    fontFamily: "'Sora', sans-serif",
+                    fontWeight: 600,
+                    fontSize: { xs: '0.7rem', sm: '0.8rem', md: '0.85rem' },
+                    color: '#1F1436',
+                }}> Resume
             </Typography>
-            </Box>
-        )}
+
+            <Button
+                component="label"
+                role={undefined}
+                variant="contained"
+                tabIndex={-1}
+                size="small"
+                startIcon={<CloudUploadIcon sx={{ fontSize: { xs: 13, sm: 14, md: 16 } }} />}
+                sx={{
+                    fontFamily: "'Inter', sans-serif",
+                    fontWeight: 600,
+                    textTransform: 'none',
+                    fontSize: { xs: '0.64rem', sm: '0.7rem', md: '0.76rem' },
+                    px: { xs: 1, sm: 1.4, md: 1.6 },
+                    py: { xs: 0.35, sm: 0.5, md: 0.55 },
+                    borderRadius: '8px',
+                    ml: { xs: 0.75, sm: 1.5, md: 2 },
+                    background: '#1F1436',
+                    boxShadow: 'none',
+                    '&:hover': { background: '#150D26', boxShadow: 'none' },
+                }}>Upload file
+
+                <VisuallyHiddenInput
+                    type="file"
+                    accept=".pdf"
+                    onChange={handleResumeUpload}
+                />
+            </Button>
+
+            {resumeFile && (
+                <Box sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: 0.8,
+                    flex: '1 1 auto',
+                    minWidth: 0,
+                    maxWidth: { xs: '100%', sm: 200 },
+                }}>
+                    <CheckCircleOutlineOutlinedIcon sx={{ fontSize: { xs: 15, sm: 16, md: 18 }, color: '#1E8E5A', flexShrink: 0 }} />
+                    <Typography
+                        sx={{
+                            fontFamily: "'Inter', sans-serif",
+                            fontWeight: 600,
+                            fontSize: { xs: '0.68rem', sm: '0.76rem', md: '0.82rem' },
+                            color: '#166945',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                            minWidth: 0,
+                            flex: 1,
+                        }}>
+                        {resumeFile.name}
+                    </Typography>
+                </Box>
+            )}
         </Stack>
-        </>
     )
 }

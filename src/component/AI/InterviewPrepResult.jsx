@@ -10,11 +10,11 @@ function QuestionColumn({ title, questions = [] }) {
     const remaining = questions.length - visible.length;
 
     return (
-        <Box sx={{ flex: 1, minWidth: 0 }}>
+        <Box sx={{ width: { xs: '100%',sm:'48%', md:'auto'},flex: { md: 1}, minWidth: 0 }}>
             <Typography sx={{
                 fontFamily: "'Sora', sans-serif",
                 fontWeight: 700,
-                fontSize: '0.85rem',
+                fontSize: {xs: '0.72rem', sm: '0.78rem', md: '0.85rem'},
                 color: ORANGE,
                 mb: 1.25,
             }}>
@@ -27,7 +27,7 @@ function QuestionColumn({ title, questions = [] }) {
                         <Stack key={i} direction="row" spacing={0.75} alignItems="flex-start">
                             <Typography sx={{
                                 fontFamily: "'Inter', sans-serif",
-                                fontSize: '0.8rem',
+                                fontSize: { xs: '0.68rem', sm: '0.74rem', md: '0.8rem' },
                                 color: '#3D3652',
                                 fontWeight: 600,
                                 flexShrink: 0,
@@ -36,7 +36,7 @@ function QuestionColumn({ title, questions = [] }) {
                             </Typography>
                             <Typography sx={{
                                 fontFamily: "'Inter', sans-serif",
-                                fontSize: '0.8rem',
+                                fontSize: { xs: '0.68rem', sm: '0.74rem', md: '0.8rem' },
                                 color: '#3D3652',
                                 lineHeight: 1.5,
                             }}>
@@ -80,7 +80,6 @@ function QuestionColumn({ title, questions = [] }) {
 }
 
 export default function InterviewPrepResult({ result }) {
-    console.log(result);
     const questions = result?.questions || [];
 
     const technical = questions
@@ -98,9 +97,8 @@ export default function InterviewPrepResult({ result }) {
     if (!result || total === 0) {
         return (
             <Box sx={{
-                width: '93%',
-                m: { xs: 2, sm: 3, md: 3 },
-                p: { xs: 1.75, sm: 2.5 },
+                width: '90%',
+                p: { xs: 1, sm: 2 },
                 borderRadius: { xs: 2, sm: 3 },
                 border: '1px solid #E7E3F2',
                 background: '#fff',
@@ -108,10 +106,10 @@ export default function InterviewPrepResult({ result }) {
             }}>
                 <Typography sx={{
                     fontFamily: "'Inter', sans-serif",
-                    fontSize: '0.85rem',
+                    fontSize: { xs: '0.60rem', sm: '0.70rem', md: '0.9rem' },
                     color: '#8b8a90',
                 }}>
-                    No questions generated yet — fill in the form above and click Generate Questions.
+                    Ready to prepare? Fill in the details above and generate your personalized interview questions.
                 </Typography>
             </Box>
         );
@@ -120,8 +118,7 @@ export default function InterviewPrepResult({ result }) {
     const roleLabel = result.role?.trim() ? result.role : "Your Selected";
     return (
          <Box sx={{
-            width: '94%',
-            m: { xs: 2, sm: 3, md: 3 },
+            width: '95%',
             p: { xs: 1.75, sm: 2.5 },
             borderRadius: { xs: 2, sm: 3 },
             border: '1px solid #E7E3F2',
@@ -137,7 +134,15 @@ export default function InterviewPrepResult({ result }) {
                 Generated Questions for the {roleLabel} Role ({total})
             </Typography>
 
-            <Stack direction={{ xs: 'column', md: 'row' }} spacing={{ xs: 2.5, md: 3 }}>
+            <Stack sx={{
+                display: 'grid',
+                gridTemplateColumns: {
+                    xs: '1fr',
+                    sm: '1fr 1fr',
+                    md: 'repeat(3, 1fr)',
+                },
+                gap: { xs: 2, sm: 2, md: 3 },
+            }}>
                 <QuestionColumn title="Technical Questions" questions={technical} />
                 <QuestionColumn title="Behavioral Questions" questions={behavioral} />
                 <QuestionColumn title="HR / General Questions" questions={hr} />

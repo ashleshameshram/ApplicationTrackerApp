@@ -41,8 +41,8 @@ export function generateMockAnalysis(resumeText, jobDescription) {
         missingSkills,
 
         strengths: matchedSkills.length
-            ? `Your resume matches the job description in ${matchedSkills.length} key skill areas.`
-            : "Your resume currently has limited skill overlap with this job description.",
+            ? [`Your resume matches the job description in ${matchedSkills.length} key skill areas.`]
+            : ["Your resume currently has limited skill overlap with this job description."],
 
         improvementSuggestions: [
             missingSkills.length

@@ -36,8 +36,9 @@ export default async function handler(req,res){
     const model = genAI.getGenerativeModel({
         model : "gemini-3.6-flash",
         generationConfig: {
-            temperature: 0.6,
-            maxOutputTokens: 1500,
+            temperature: 0,
+            maxOutputTokens: 2500,
+            responseMimeType: "application/json",
         },
     });
 
@@ -57,6 +58,8 @@ export default async function handler(req,res){
     - Do not invent skills, companies, or experience not present in the resume.
     - When the JD lists alternatives with "or" (e.g. "React, Next.js, or Angular"), satisfying ONE alternative counts as matched — do not list the others as missing.
     - If the resume satisfies none of an "or" group (e.g. "Sass or Tailwind"), list it as ONE missing skill, not separate ones.
+    - Only extract skills that are concrete, named tools, technologies, frameworks, languages, or well-established practices (e.g. "React", "Cross-Browser Testing", "Agile") — never paraphrase a JD responsibility or duty sentence into a skill label (e.g. do NOT invent phrases like "UI/UX Translation" from a sentence about converting designs to code).
+    - Do not list a skill as missing if it is a subset or direct implication of a skill already listed as matched (e.g. do not list "JSON" as missing if "RESTful APIs" is already matched).
     - matchedSkills: max 8. missingSkills: max 6.
     - strengths: 2-3 short bullets, each under 12 words.
     - improvementSuggestions: 2-3 short, actionable bullets, each under 15 words.
@@ -73,12 +76,21 @@ export default async function handler(req,res){
         const response = result.response;
         //text in the json format  (Gets the content)
         const text = response.text();
-        const cleanText = text.replace(/```json/g, "").replace(/```/g, "").trim();
         //anaysis is here js object (converts that content into something JavaScript can work with.)
-        const analysis = JSON.parse(cleanText);  //JSON.parse() -> only works if text contains valid JSON.
 
+        let analysis;
+        try {
+            analysis = JSON.parse(text);
+        } catch (parseError) {
+            console.error("Invalid Gemini JSON:", text);
+            
+            return res.status(502).json({
+                message: "Gemini returned an invalid analysis response. Please try again."
+            });
+        }
         return res.status(200).json(analysis);
-    }catch(err) {
+    }
+    catch(err) {
         console.error("Gemini analysis failed:", err);
 
         if (err.status === 429) {

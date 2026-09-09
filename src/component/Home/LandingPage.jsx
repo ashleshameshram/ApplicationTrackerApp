@@ -17,11 +17,11 @@ export default function LandingPage() {
         alignItems: 'center',
         justifyContent: 'center',
         textAlign: 'center',
-        px: 3,
+        px: { xs: 2, sm: 2.5, md: 3 },
         backgroundImage:
-          'linear-gradient(120deg, #0B1F2A 0%, #1B1035 35%, #2A1B45 55%, #0B1F2A 100%)',
+          'linear-gradient(120deg, #0B1F2A 0%, #1B1035 35%, #362850 55%, #0B1F2A 100%)',
         backgroundSize: '300% 300%',
-        animation: `${drift} 16s ease-in-out infinite`,
+        animation: `${drift} 10s ease-in-out infinite`,
         '@media (prefers-reduced-motion: reduce)': {
           animation: 'none',
         },
@@ -31,12 +31,12 @@ export default function LandingPage() {
       <Typography
         sx={{
           fontFamily: "'Sora', sans-serif",
-          fontSize: '0.78rem',
+          fontSize: { xs: '0.66rem', sm: '0.72rem', md: '0.78rem' },
           letterSpacing: '0.16em',
           textTransform: 'uppercase',
           color: '#E8985E',
           fontWeight: 600,
-          mb: 2,
+          mb: { xs: 1.5, sm: 1.75, md: 2 },
         }}
       >
         ApplyIQ · AI Job Tracker
@@ -47,11 +47,11 @@ export default function LandingPage() {
         sx={{
           fontFamily: "'Sora', sans-serif",
           fontWeight: 700,
-          fontSize: { xs: '1.9rem', sm: '2.4rem', md: '2.9rem' },
+          fontSize: { xs: '1.5rem', sm: '2rem', md: '2.9rem' },
           lineHeight: 1.15,
           color: '#F4EFE6',
           maxWidth: 760,
-          mb: 2,
+          mb: { xs: 1.5, sm: 1.75, md: 2 },
         }}
       >
         Track every job application.{' '}
@@ -64,11 +64,11 @@ export default function LandingPage() {
       <Typography
         sx={{
           fontFamily: "'Inter', sans-serif",
-          fontSize: { xs: '0.95rem', md: '1.05rem' },
+          fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1.05rem' },
           color: '#A9B8BC',
           maxWidth: 540,
           lineHeight: 1.6,
-          mb: 4,
+          mb: { xs: 3, sm: 3.5, md: 4 },
         }}
       >
         ApplyIQ keeps every application, its stage, and what to do next in one
@@ -77,15 +77,15 @@ export default function LandingPage() {
       </Typography>
 
       {/* CTAs */}
-      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 1.5, sm: 2 }} sx={{ width: { xs: '100%', sm: 'auto' } }}>
         <Button
           sx={{
             fontFamily: "'Sora', sans-serif",
             fontWeight: 600,
             textTransform: 'none',
-            fontSize: '0.95rem',
-            px: 3.5,
-            py: 1.3,
+            fontSize: { xs: '0.8rem', sm: '0.88rem', md: '0.95rem' },
+            px: { xs: 2.5, sm: 3, md: 3.5 },
+            py: { xs: 0.9, sm: 1.1, md: 1.3 },
             borderRadius: '100px',
             color: '#0B1F2A',
             background: '#E8985E',
@@ -100,9 +100,9 @@ export default function LandingPage() {
             fontFamily: "'Sora', sans-serif",
             fontWeight: 600,
             textTransform: 'none',
-            fontSize: '0.95rem',
-            px: 3.5,
-            py: 1.3,
+            fontSize: { xs: '0.8rem', sm: '0.88rem', md: '0.95rem' },
+            px: { xs: 2.5, sm: 3, md: 3.5 },
+            py: { xs: 0.9, sm: 1.1, md: 1.3 },
             borderRadius: '100px',
             color: '#F4EFE6',
             border: '1px solid rgba(244,239,230,0.25)',
