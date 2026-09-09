@@ -65,6 +65,7 @@ export default function ApplicationCard({ application, onEdit, onDelete }) {
                     {...listeners}
                     {...attributes}
                     sx={{cursor: isDragging ? 'grabbing' : 'grab',
+                        touchAction: 'none',
                         display:'flex',gap: { xs: 0.75, sm: 1.5 },
                         alignItems: 'center',
                         flex:1,minWidth:0

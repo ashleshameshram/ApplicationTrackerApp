@@ -81,7 +81,7 @@ export default async function handler(req,res){
         let analysis;
         try {
             analysis = JSON.parse(text);
-        } catch (parseError) {
+        } catch {
             console.error("Invalid Gemini JSON:", text);
             
             return res.status(502).json({

@@ -8,7 +8,7 @@ import AddApplicationRow from './AddApplicationRow.jsx';
 import StatsBar from './StatsBar.jsx';
 import SearchFilter from './SearchFilter.jsx';
 
-import { DndContext,DragOverlay  } from '@dnd-kit/core';
+import { DndContext,DragOverlay,PointerSensor,useSensor,useSensors } from '@dnd-kit/core';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import NearMeIcon from '@mui/icons-material/NearMe';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
@@ -29,6 +29,13 @@ export default function MyApplicationPage() {
     const [openEditApplication, setOpenEditApplication] = useState(false);
     const [searchFilter,setSearchFilter] = useState('');
     const [activeId, setActiveId] = useState(null);
+    const sensors = useSensors(
+            useSensor(PointerSensor, {
+                activationConstraint: {
+                distance: 1,
+            },
+        })
+    );
 
     const handleDragStart = (e) => {
         setActiveId(e.active.id);
@@ -157,7 +164,7 @@ export default function MyApplicationPage() {
                 <SearchFilter searchFilter={searchFilter} setSearchFilter={setSearchFilter}/>
 
                 <Box sx={{width:'100%', boxSizing: 'border-box',pt:2}}>
-                    <DndContext onDragEnd={handleDragEnd} onDragStart={handleDragStart}>
+                    <DndContext sensors={sensors} onDragEnd={handleDragEnd} onDragStart={handleDragStart}>
 
                         <Box  sx={{
                             display: 'grid',

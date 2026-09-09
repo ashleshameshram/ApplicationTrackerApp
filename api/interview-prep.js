@@ -11,7 +11,7 @@ const model = genAI.getGenerativeModel({
         maxOutputTokens: 1500,
     },
 });
-const QUESTIONS_PER_CATEGORY = 7;
+const QUESTIONS_PER_CATEGORY = 10;
 
 function buildPrompt(role, specificArea, difficulty, category) {
     return (
