@@ -1,40 +1,30 @@
 # ApplyIQ — Job Application Tracker with AI
 
-A simple app to keep track of the jobs you apply to, but with an AI twist that actually helps you get more interviews.
+A job application tracker that also checks how well your resume matches a job, and helps you prep for the interview — instead of just being a list of companies you applied to.
 
-## Why I'm building this
- 
-Most job trackers just let you save a list of companies you applied to. That's fine, but it doesn't solve the real problem — most people don't know why they're not getting replies. Usually it's because their resume doesn't match what the job actually wants.
- 
-So ApplyIQ will do two things other trackers don't:
-1. Check how well your resume matches a job description and tell you what's missing.
-2. Help you prepare for interviews based on the actual job, not generic questions.
-## What it'll do
- 
-- **Resume match score** — paste a job description, and it tells you how well your resume matches it (in %), plus what keywords/skills you're missing.
-- **AI interview prep** — based on the job description, it generates the kind of questions you might get asked, plus smart questions to ask back.
-- **Track your applications** — see all your applications in one place, mark them as Applied, Interview, Offer, or Rejected.
-- **Board view** — a Trello-style board so you can see your applications by stage at a glance, and drag a card to a new column when its status changes.
-- Works well on both desktop and mobile.
+## Why I built this
+
+Most job trackers just let you save a list of applications. That's fine, but it doesn't help with the actual problem — a lot of people don't know why they're not getting replies. Usually it's because their resume isn't matching what the job description is actually asking for.
+
+So along with tracking, ApplyIQ does two extra things:
+1. Checks your resume against a job description and tells you what's missing.
+2. Generates interview questions based on that same job, not generic ones.
+
+## What's working right now
+
+- **Resume & Job Match** — paste a job description and upload your resume (PDF), and it gives you a match score out of 100, a list of matched skills, missing skills, your strengths, and a few suggestions to improve your resume for that specific job.
+- **AI Interview Prep** — pick a role, difficulty level, and focus areas (Technical / Behavioral / HR), and it generates real interview questions split by category, based on Google's Gemini API.
+- Responsive layout — built and tested to work across mobile, tablet, and desktop screen sizes.
+
 
 ## Built with
+
 - React
-- Material UI
-- localStorage to save data
+- Material UI (MUI)
+- Google Gemini API (via Vercel serverless functions)
+- pdfjs-dist for reading resume PDFs in the browser
 - Deployed on Vercel
 
-## Roadmap
- 
-- [ ] Dashboard page
-- [ ] Add/edit application form
-- [ ] Board view
-- [ ] AI resume match feature
-- [ ] AI interview prep feature
-- [ ] Make it responsive for mobile
-- [ ] Deploy it
-- [ ] (Maybe later) show insights based on your own application data
-
-
 ## About me
- 
-Made by Ashlesha Meshram  — learning Frontend development and building this as a portfolio project.
+
+Made by Ashlesha Meshram — learning frontend development, building this as a portfolio project.

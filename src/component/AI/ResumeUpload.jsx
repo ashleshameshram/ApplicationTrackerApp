@@ -56,8 +56,8 @@ export default function ResumeUpload({ setResumeText, setIsExtracting, setInputM
     return (
         <Stack
             direction="row"
+            spacing={{ xs: 0.7, sm: 1, md: 1.2}}
             alignItems="center"
-            spacing={{ xs: 0.7, sm: 1, md: 1.2 }}
             sx={{
                 minWidth: 0,
                 border: '1px solid #E7E3F2',

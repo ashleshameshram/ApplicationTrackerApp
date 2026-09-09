@@ -11,7 +11,7 @@ export default function JobDescription({ setJobDescription, setInputMessage }) {
                 p: { xs: 1, sm: 1.5, md: 2 },
                 mb: { xs: 1, sm: 1.5, md: 2 },
             }}>
-            <Stack direction="row" alignItems="center" spacing={0.8} sx={{ mb: 1 }}>
+            <Stack direction="row" spacing={0.8} sx={{ mb: 1, alignItems: 'center' }}>
                 <DescriptionOutlinedIcon sx={{ fontSize: { xs: 14, sm: 16, md: 18 }, color: '#6D28D9' }} />
                 <Typography
                     sx={{

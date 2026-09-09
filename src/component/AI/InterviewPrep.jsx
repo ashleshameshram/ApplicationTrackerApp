@@ -163,7 +163,8 @@ export default function InterviewPrep({ setInterviewResult }) {
                     {/* Row 1: Domain/Role + Difficulty + Focus Areas — 3 up */}
                     <Stack direction={{ xs: 'column', md: 'row' }}
                         spacing={{ xs: 2.5, sm: 2.5, md: 3 }}
-                        alignItems={{ xs: 'stretch', md: 'flex-start' }}
+                        sx={{ alignItems: {xs: 'stretch',md: 'flex-start',},
+                    }}
                     >
                         {/* Domain / Role */}
                         <Box sx={{ flex: { md: 0.7 }, minWidth: 0, width: { xs: '100%', md: 'auto' } }}>
@@ -238,7 +239,7 @@ export default function InterviewPrep({ setInterviewResult }) {
                             <Typography sx={{ fontFamily: "'Inter', sans-serif", fontWeight: 600, fontSize: { xs: '0.72rem', sm: '0.8rem' }, color: '#3D3652', mb: 0.75 }}>
                                 Difficulty Level
                             </Typography>
-                            <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+                            <Stack direction="row" spacing={1} sx={{ flexWrap:'wrap'}} useFlexGap>
                                 {difficultyOptions.map((opt) => {
                                     const val = opt.toLowerCase();
                                     return (
@@ -274,7 +275,7 @@ export default function InterviewPrep({ setInterviewResult }) {
                                 </Box>
                             </Typography>
 
-                            <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+                            <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap' }} useFlexGap>
                                 {[
                                     { key: 'technical', label: 'Technical' },
                                     { key: 'behavioral', label: 'Behavioral' },
